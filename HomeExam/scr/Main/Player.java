@@ -27,6 +27,11 @@ public class Player {
     public Boolean containsCard(Card card){
         return hand.contains(card);
     }
+    
+    private void printHand()
+    {
+        view.printPlayerCards(hand);
+    }
 
     public class OnlinePlayer extends Player{
 
@@ -40,7 +45,7 @@ public class Player {
         }
 
         public void playCard(Card card){
-            Server.DiscardedCards().add(new PlayedCard(PLAYER_ID, card));
+            //Server.DiscardedCards().add(new PlayedCard(PLAYER_ID, card));
             hand.remove(card);
         }
 

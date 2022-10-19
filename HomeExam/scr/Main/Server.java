@@ -19,7 +19,7 @@ public class Server {
     {
         this.view = view;
         deckFactory.deckShuffler();
-        this.numPlayers = numOnlinePlayers + numBots;
+        Server.numPlayers = numOnlinePlayers + numBots;
 
         if (numPlayers < MIN_NUM_PLAYERS || numPlayers > MAX_NUM_PLAYERS) {
             throw new Exception("Not a valid amount of players");       //XX: Add so that handles error and hangles total num players+bots
