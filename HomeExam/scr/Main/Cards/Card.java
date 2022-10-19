@@ -1,5 +1,5 @@
 package HomeExam.scr.Main.Cards;
 
-public class Cards {
+public class Card {
     
 }

@@ -1,11 +1,13 @@
 package HomeExam.scr.Main;
 
+import HomeExam.scr.Main.Cards.Card;
+
 class PlayedCard
 {
     private int PLAYER_ID;
-    private String card;
+    private Card card;
 
-    public PlayedCard(int PLAYER_ID, String card)
+    public PlayedCard(int PLAYER_ID, Card card)
     {
         this.PLAYER_ID = PLAYER_ID;
         this.card = card;
@@ -13,13 +15,13 @@ class PlayedCard
 
     /**
      *Getters
-     */
+    **/
     public int getPLAYER_ID()
     {
         return PLAYER_ID;
     }
 
-    public String getCard()
+    public Card getCard()
     {
         return card;
     }
