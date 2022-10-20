@@ -1,10 +1,10 @@
 package HomeExam.scr.Main.Cards;
 
-public class Card {
+abstract public class Card {
 
     protected String name;
     protected String description;
-    protected Boolean isPlayable;
+    protected Boolean isPlayable = true;
     
     public void onDraw(){}
 

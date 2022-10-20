@@ -6,14 +6,14 @@ import java.util.*;
 
 import HomeExam.scr.Main.Cards.Card;
 
-public class DeckFactory {
+public class Deck {
     private static ArrayList<Card> cardDeck;
 
     /**
      * Creates and shuffles the deck for the game, without 
      * @throws Exception
      */
-    public DeckFactory() throws Exception
+    public Deck() throws Exception
     {   
         ArrayList<String> numCardsOfEachType = readNumCards();
 

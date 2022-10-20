@@ -14,7 +14,7 @@ public class Server {
     private ArrayList<Player> players = new ArrayList<Player>();
     private View view;
     private Random random;
-    private DeckFactory deckFactory = new DeckFactory();
+    private Deck deckFactory = new Deck();
 
     private static final int MIN_NUM_PLAYERS = 2;
     private static final int MAX_NUM_PLAYERS = 5;
