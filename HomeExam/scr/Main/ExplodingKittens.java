@@ -9,7 +9,7 @@ public class ExplodingKittens {
      * @param argv
      * @throws Exception
      */
-    public static void main(String argv[]) throws Exception
+    public ExplodingKittens(String argv[]) throws Exception
     {
         View view = new View();
         if(argv.length == 0)
@@ -38,4 +38,12 @@ public class ExplodingKittens {
             }
         }
     }
+
+    public static void main(String argv[]) {
+		try {
+			new ExplodingKittens(argv);
+		} catch(Exception e) {
+
+		}
+	}
 }
