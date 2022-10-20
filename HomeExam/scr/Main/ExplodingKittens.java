@@ -9,7 +9,7 @@ public class ExplodingKittens {
      * @param argv
      * @throws Exception
      */
-    public ExplodingKittens(String argv[]) throws Exception
+    private ExplodingKittens(String argv[]) throws Exception
     {
         View view = new View();
 

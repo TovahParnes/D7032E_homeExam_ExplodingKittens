@@ -8,7 +8,7 @@ import java.util.concurrent.*;
 public class OnlineClient
 {
     private static final String ipAddress = null;
-    public int secondsToInterruptWithNope = 5;
+    private static final int secondsToInterruptWithNope = 5;
 
     //Connect to server
     public OnlineClient(String ipAddress, View view) throws Exception
