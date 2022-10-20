@@ -1,6 +1,11 @@
 package HomeExam.scr.Main;
 
+import java.io.*;
+import java.net.*;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
+
+import HomeExam.scr.Main.Players.Player;
 
 public class Server {
 
@@ -25,17 +30,19 @@ public class Server {
             throw new Exception("Not a valid amount of players");       //XX: Add so that handles error and hangles total num players+bots
         }
 
-        addPlayers(numOnlinePlayers, view);
-        addBots(numBots, view);
-        addServerPlayer(view);
+        addOnlinePlayers(numOnlinePlayers, view);
+        //addBots(numBots, view);
+        //addServerPlayer(view);
         int currentPlayer = setCurrentPlayer();
+
+
+
 
         boolean gameOver = false;
         if(!testBool)
         {
             startGameLoop(gameOver, currentPlayer, numPlayers);
         }
-
     }
 
     /**
@@ -49,6 +56,25 @@ public class Server {
         while(!finished) {
             
         }
+    }
+
+
+    public void addOnlinePlayers(int numPlayers, View view) throws Exception
+    {
+        ServerSocket aSocket = new ServerSocket(2048);
+        for(int onlineClient=0; onlineClient<numPlayers; onlineClient++)
+        {
+            Socket connectionSocket = aSocket.accept();
+            ObjectInputStream inFromClient = new ObjectInputStream(connectionSocket.getInputStream());
+            ObjectOutputStream outToClient = new ObjectOutputStream(connectionSocket.getOutputStream());
+            view.printConnection(onlineClient);
+        }
+    }
+
+    public int setCurrentPlayer()
+    {
+        random = ThreadLocalRandom.current();
+        return random.nextInt(players.size());
     }
 
 }

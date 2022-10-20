@@ -21,7 +21,7 @@ public class DeckFactory {
 
     private  ArrayList<String> readNumCards() throws Exception
     {   
-        ArrayList<String> numCardsOfEachType = new ArrayList<String>(Files.readAllLines(Paths.get("","NumCardsBaseGame.txt"), StandardCharsets.ISO_8859_1));
+        ArrayList<String> numCardsOfEachType = new ArrayList<String>(Files.readAllLines(Paths.get("","NumCardsBaseGame.txt")));
         return numCardsOfEachType;
     }
 

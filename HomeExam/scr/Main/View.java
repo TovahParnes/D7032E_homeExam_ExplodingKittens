@@ -3,6 +3,7 @@ package HomeExam.scr.Main;
 import java.util.*;
 
 import HomeExam.scr.Main.Cards.Card;
+import HomeExam.scr.Main.Players.Player;
 
 public class View {
 
@@ -24,11 +25,15 @@ public class View {
         return word;
     }	
 
-    public void playerTurn(Player player){
+    public void printConnection(int onlineClient){
+        System.out.println("Connected to Player ID: " + (onlineClient));
+    }
+
+    public String playerTurn(Player player){
         String message = ("\nYou have " + player.getTurnsLeft() + ((player.getTurnsLeft()>1)?" turns":" turn") + " to take");
         message += ("\nYour hand: " + playerCards(player.getHand()));
         message += playerOptions(player.getHand());
-
+        return message;
     }
 
     public String playerCards(ArrayList<Card> hand){
