@@ -1,0 +1,52 @@
+{
+	"cards": [
+		{
+			"type": "Attack",
+			"quantity": 4
+		},
+		{
+			"type": "Favor",
+			"quantity": 4
+		},
+		{
+			"type": "Nope",
+			"quantity": 5
+		},
+		{
+			"type": "Shuffle",
+			"quantity": 4
+		},
+		{
+			"type": "Skip",
+			"quantity": 4
+		},
+		{
+			"type": "SeeTheFuture",
+			"quantity": 5
+		},
+		{
+			"type": "HairyPotatoCat",
+			"quantity": 4
+		},
+		{
+			"type": "Cattermelon",
+			"quantity": 4
+		},
+		{
+			"type": "RainbowRalpingCat",
+			"quantity": 4
+		},
+		{
+			"type": "TacoCat",
+			"quantity": 4
+		},
+		{
+			"type": "OverweightBikiniCat",
+			"quantity": 4
+		},
+		{
+			"type": "OverweightBikiniCat",
+			"quantity": 4
+		}
+	]
+}
