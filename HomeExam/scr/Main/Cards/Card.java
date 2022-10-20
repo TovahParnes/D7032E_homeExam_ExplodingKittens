@@ -4,20 +4,22 @@ public class Card {
 
     protected String name;
     protected String description;
+    protected Boolean isPlayable;
     
     public void onDraw(){}
 
     public void onPlay(){}
 
-    public class SkipCard extends Card{
-        
-        public void init(){
-            this.name = "skip";
-            this.description = "Immediately end your turn without drawing a card.";
-        }
-        
-        
+    public String getName(){
+        return this.name;
+    }
 
+    public String getDescription(){
+        return this.description;
+    }
+
+    public Boolean getIsPlayable(){
+        return isPlayable;
     }
     
 }
