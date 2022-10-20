@@ -25,6 +25,10 @@ public class View {
         return word;
     }	
 
+    public void printErrorStart(){
+        System.out.println("Something went wrong");
+    }
+
     public void printConnection(int onlineClient){
         System.out.println("Connected to Player ID: " + (onlineClient));
     }
