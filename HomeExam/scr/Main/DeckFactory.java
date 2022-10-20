@@ -21,7 +21,8 @@ public class DeckFactory {
 
     private  ArrayList<String> readNumCards() throws Exception
     {   
-        ArrayList<String> numCardsOfEachType = new ArrayList<String>(Files.readAllLines(Paths.get("","NumCardsBaseGame.txt")));
+        ArrayList<String> numCardsOfEachType = new ArrayList<String>();
+        //numCardsOfEachType = Files.readAllLines(Paths.get("","NumCardsBaseGame.txt"));
         return numCardsOfEachType;
     }
 
@@ -30,7 +31,7 @@ public class DeckFactory {
 
     public void deckShuffler()
     {
-        Collections.shuffle(cardDeck);
+        //Collections.shuffle(cardDeck);
     }
 
 

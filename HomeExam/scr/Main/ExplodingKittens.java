@@ -12,30 +12,16 @@ public class ExplodingKittens {
     public ExplodingKittens(String argv[]) throws Exception
     {
         View view = new View();
-        if(argv.length == 0)
-        {
-            try
-            {
-                Server server = new Server(0, 0, view, false);
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace(System.out);
-            }
-        }
-        else
-        {
-            try
-            {
-                int numOnlinePlayers = Integer.parseInt(argv[0]);
-                int numBots = Integer.parseInt(argv[0]);
-                Server server = new Server(numOnlinePlayers, numBots, view, false);
-            }
-            catch(NumberFormatException e)
-            {
-                e.printStackTrace(System.out);
-                view.printErrorStart();
-            }
+
+        if(argv.length == 2) {
+            int numOnlinePlayers = Integer.parseInt(argv[0]);
+            int numBots = Integer.parseInt(argv[1]);
+            Server server = new Server(numOnlinePlayers, numBots, view, false);
+        } else if(argv.length == 1) {
+            OnlineClient OnlineClient = new OnlineClient(argv[0], view);
+        } else {
+            System.out.println("Server syntax: java ExplodingKittens numPlayers numBots");
+            System.out.println("Client syntax: IP");
         }
     }
 
@@ -43,7 +29,7 @@ public class ExplodingKittens {
 		try {
 			new ExplodingKittens(argv);
 		} catch(Exception e) {
-
+            e.printStackTrace(System.out);
 		}
 	}
 }

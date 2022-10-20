@@ -3,8 +3,9 @@ package HomeExam.scr.Main;
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.*;
 
+import HomeExam.scr.Main.Players.OnlinePlayer;
 import HomeExam.scr.Main.Players.Player;
 
 public class Server {
@@ -17,13 +18,12 @@ public class Server {
 
     private static final int MIN_NUM_PLAYERS = 2;
     private static final int MAX_NUM_PLAYERS = 5;
-
     private static int numPlayers;
 
     public Server(int numOnlinePlayers, int numBots, View view, boolean testBool) throws Exception
     {
         this.view = view;
-        deckFactory.deckShuffler();
+        //deckFactory.deckShuffler();
         Server.numPlayers = numOnlinePlayers + numBots;
 
         if (numPlayers < MIN_NUM_PLAYERS || numPlayers > MAX_NUM_PLAYERS) {
@@ -31,12 +31,8 @@ public class Server {
         }
 
         addOnlinePlayers(numOnlinePlayers, view);
-        //addBots(numBots, view);
-        //addServerPlayer(view);
         int currentPlayer = setCurrentPlayer();
-
-
-
+        System.out.println(currentPlayer);
 
         boolean gameOver = false;
         if(!testBool)
@@ -67,15 +63,17 @@ public class Server {
             Socket connectionSocket = aSocket.accept();
             ObjectInputStream inFromClient = new ObjectInputStream(connectionSocket.getInputStream());
             ObjectOutputStream outToClient = new ObjectOutputStream(connectionSocket.getOutputStream());
+            players.add(new OnlinePlayer(onlineClient, connectionSocket, inFromClient, outToClient, view));
             view.printConnection(onlineClient);
         }
     }
 
     public int setCurrentPlayer()
     {
-        random = ThreadLocalRandom.current();
-        return random.nextInt(players.size());
+        return ThreadLocalRandom.current().nextInt(players.size());
+        //return Random().nextInt(players.size());
     }
+
 
 }
 
