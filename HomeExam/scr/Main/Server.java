@@ -32,7 +32,7 @@ public class Server {
 
         addOnlinePlayers(numOnlinePlayers, view);
 
-        deck = new Deck();
+        deck = new Deck("TestGameCards");
 
 
         int currentPlayer = setCurrentPlayer();

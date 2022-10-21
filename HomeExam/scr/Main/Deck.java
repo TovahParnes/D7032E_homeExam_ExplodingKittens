@@ -1,8 +1,11 @@
 package HomeExam.scr.Main;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.FileReader;
+import java.lang.reflect.*;
 import java.util.*;
+import org.json.simple.JSONArray;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import HomeExam.scr.Main.Cards.Card;
 
@@ -10,23 +13,48 @@ public class Deck {
     private static ArrayList<Card> cardDeck;
 
     /**
-     * Creates and shuffles the deck for the game, without 
+     * 
      * @throws Exception
      */
-    public Deck() throws Exception
+    public Deck(String cardsFile) throws Exception
     {   
-        ArrayList<String> numCardsOfEachType = readNumCards();
+        cardDeck = new ArrayList<Card>();
+
+        generateDeck(cardsFile);
+        
 
     }
 
-    private  ArrayList<String> readNumCards() throws Exception
-    {   
-        ArrayList<String> numCardsOfEachType = new ArrayList<String>();
-        //numCardsOfEachType = Files.readAllLines(Paths.get("","NumCardsBaseGame.txt"));
-        return numCardsOfEachType;
+    private void generateDeck(String cardsFile) throws Exception
+    {
+        ArrayList<ArrayList<String>> readCards = readCardFile(cardsFile);
+        addCards(readCards);
     }
 
-    private void AddCards(ArrayList<String> numCardsOfEachType){
+    private void addCards(ArrayList<ArrayList<String>> gameCards) throws Exception
+    {
+        for (ArrayList<String> cardNameAndQuantity : gameCards) {
+            String cardName = cardNameAndQuantity.get(0);
+            int cardQuantity = Integer.parseInt(cardNameAndQuantity.get(1));
+            Class<?> cardClass = Class.forName("HomeExam.scr.Main.Cards." + cardName + "Card");
+            Constructor<?> cardConstructor = cardClass.getConstructor();
+            for (int i = 0; i < cardQuantity; i++) {
+                Card cardInstance = (Card) cardConstructor.newInstance();
+                cardDeck.add(cardInstance);
+            }
+            
+        }
+    }
+
+    private  ArrayList<ArrayList<String>> readCardFile(String gameCardsFileName) throws Exception
+    {
+        JSONParser parser = new JSONParser();
+
+        JSONArray a = (JSONArray) parser.parse(new FileReader(gameCardsFileName + ".json"));
+        System.out.println(a);
+
+        return a;
+
     }
 
     public void deckShuffler()

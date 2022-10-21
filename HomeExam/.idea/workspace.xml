@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="4df470fc-68d9-45e8-9e48-b2a2cb7c9f31" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/out/HomeExam/scr/Main/Cards/Card.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/HomeExam/scr/Main/Cards/SkipCard.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/HomeExam/scr/Main/DeckFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/HomeExam/scr/Main/ExplodingKittens.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/HomeExam/scr/Main/OnlineClient.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/HomeExam/scr/Main/PlayedCard.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/HomeExam/scr/Main/Players/OnlinePlayer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/HomeExam/scr/Main/Players/Player$Bot.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/HomeExam/scr/Main/Players/Player.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/HomeExam/scr/Main/Server.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/HomeExam/scr/Main/View.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scr/Main/Deck.java" beforeDir="false" afterPath="$PROJECT_DIR$/scr/Main/Deck.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scr/Main/GameVariables/OriginalGameCards.json" beforeDir="false" afterPath="$PROJECT_DIR$/scr/Main/GameVariables/OriginalGameCards.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/HomeExam_ExplodingKittens/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/HomeExam_ExplodingKittens/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/HomeExam_ExplodingKittens/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/HomeExam_ExplodingKittens/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/HomeExam_ExplodingKittens/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/HomeExam_ExplodingKittens/ExplodingKittens$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/HomeExam_ExplodingKittens/ExplodingKittens$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/HomeExam_ExplodingKittens/ExplodingKittens$Card.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/HomeExam_ExplodingKittens/ExplodingKittens$Player.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/HomeExam_ExplodingKittens/ExplodingKittens.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/HomeExam_ExplodingKittens/HomeExam/scr/Main/Cards/Card.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/HomeExam_ExplodingKittens/HomeExam/scr/Main/Cards/SkipCard.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/HomeExam_ExplodingKittens/HomeExam/scr/Main/DeckFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/HomeExam_ExplodingKittens/HomeExam/scr/Main/ExplodingKittens.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/HomeExam_ExplodingKittens/HomeExam/scr/Main/OnlineClient$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/HomeExam_ExplodingKittens/HomeExam/scr/Main/OnlineClient.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/HomeExam_ExplodingKittens/HomeExam/scr/Main/PlayedCard.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/HomeExam_ExplodingKittens/HomeExam/scr/Main/Players/OnlinePlayer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/HomeExam_ExplodingKittens/HomeExam/scr/Main/Players/Player$Bot.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/HomeExam_ExplodingKittens/HomeExam/scr/Main/Players/Player.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/HomeExam_ExplodingKittens/HomeExam/scr/Main/Server.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/HomeExam_ExplodingKittens/HomeExam/scr/Main/View.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/HomeExam_ExplodingKittens/HomeExam_ExplodingKittens.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/HomeExam_ExplodingKittens/README.md" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="2GRFuKFtwujUWytr0SSmqtgy9sl" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "/Users/tovah/Documents/D7032E/HomeExam_ExplodingKittens/HomeExam"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4df470fc-68d9-45e8-9e48-b2a2cb7c9f31" name="Changes" comment="" />
+      <created>1666343710978</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1666343710978</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

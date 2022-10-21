@@ -1,0 +1,24 @@
+{
+	"cards": [
+		{
+			"type": "HairyPotatoCatCard",
+			"quantity": 4
+		},
+		{
+			"type": "CattermelonCard",
+			"quantity": 4
+		},
+		{
+			"type": "RainbowRalpingCatCard",
+			"quantity": 4
+		},
+		{
+			"type": "TacoCatCard",
+			"quantity": 4
+		},
+		{
+			"type": "OverweightBikiniCatCard",
+			"quantity": 4
+		}
+	]
+}

@@ -1,0 +1,9 @@
+{
+	"settings": {
+		"MIN_NUM_PLAYERS": 2,
+		"MAX_NUM_PLAYERS": 5,
+		"DIFFUSE_CARDS_PER_PERSON": 1,
+		"NUM_CARDS_IN_HAND": 7,
+		"SECONDS_TO_PLAY_NOPE": 5
+	}
+}
