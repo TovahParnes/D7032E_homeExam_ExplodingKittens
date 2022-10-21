@@ -1,23 +1,23 @@
 {
 	"cards": [
 		{
-			"type": "HairyPotatoCatCard",
+			"type": "HairyPotatoCat",
 			"quantity": 4
 		},
 		{
-			"type": "CattermelonCard",
+			"type": "Cattermelon",
 			"quantity": 4
 		},
 		{
-			"type": "RainbowRalpingCatCard",
+			"type": "RainbowRalphingCat",
 			"quantity": 4
 		},
 		{
-			"type": "TacoCatCard",
+			"type": "TacoCat",
 			"quantity": 4
 		},
 		{
-			"type": "OverweightBikiniCatCard",
+			"type": "OverweightBikiniCat",
 			"quantity": 4
 		}
 	]

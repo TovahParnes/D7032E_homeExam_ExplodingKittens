@@ -1,6 +1,4 @@
-package HomeExam.scr.Main.Cards.CatCardTypes;
-
-import HomeExam.scr.Main.Cards.Card;
+package HomeExam.scr.Main.Cards;
 
 public class OverweightBikiniCatCard extends Card{
 

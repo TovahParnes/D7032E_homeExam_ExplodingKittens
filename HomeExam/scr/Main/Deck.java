@@ -4,6 +4,7 @@ import java.io.FileReader;
 import java.lang.reflect.*;
 import java.util.*;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
@@ -21,45 +22,46 @@ public class Deck {
         cardDeck = new ArrayList<Card>();
 
         generateDeck(cardsFile);
-        
-
     }
 
     private void generateDeck(String cardsFile) throws Exception
     {
-        ArrayList<ArrayList<String>> readCards = readCardFile(cardsFile);
-        addCards(readCards);
+        readCardJSON(cardsFile);
     }
 
-    private void addCards(ArrayList<ArrayList<String>> gameCards) throws Exception
-    {
-        for (ArrayList<String> cardNameAndQuantity : gameCards) {
-            String cardName = cardNameAndQuantity.get(0);
-            int cardQuantity = Integer.parseInt(cardNameAndQuantity.get(1));
-            Class<?> cardClass = Class.forName("HomeExam.scr.Main.Cards." + cardName + "Card");
-            Constructor<?> cardConstructor = cardClass.getConstructor();
-            for (int i = 0; i < cardQuantity; i++) {
-                Card cardInstance = (Card) cardConstructor.newInstance();
-                cardDeck.add(cardInstance);
-            }
-            
-        }
-    }
-
-    private  ArrayList<ArrayList<String>> readCardFile(String gameCardsFileName) throws Exception
+    private void readCardJSON(String gameCardsFileName) throws Exception
     {
         JSONParser parser = new JSONParser();
 
-        JSONArray a = (JSONArray) parser.parse(new FileReader(gameCardsFileName + ".json"));
-        System.out.println(a);
+        JSONObject a = (JSONObject) parser.parse(new FileReader("HomeExam/scr/Main/GameVariables/" + gameCardsFileName + ".json"));
+        JSONArray cardsArrayJson = (JSONArray) a.get("cards");
+        for (Object cardJson : cardsArrayJson) {
+            JSONObject cardObject = (JSONObject) cardJson;
+            String cardType = (String) cardObject.get("type");
+            Long cardQuantity = (Long) cardObject.get("quantity");
+            addCards(cardType, cardQuantity.intValue());
+        }
+    }
 
-        return a;
-
+    private void addCards(String type, int quantity) throws Exception
+    {   
+        //TODO: add try catch
+        Class<?> cardClass = Class.forName("HomeExam.scr.Main.Cards." + type + "Card");
+        Constructor<?> cardConstructor = cardClass.getConstructor();
+        for (int i = 0; i < quantity; i++) {
+            Card cardInstance = (Card) cardConstructor.newInstance();
+            cardDeck.add(cardInstance);
+        }
     }
 
     public void deckShuffler()
     {
-        //Collections.shuffle(cardDeck);
+        Collections.shuffle(cardDeck);
+    }
+
+    public ArrayList<Card> getDeck()
+    {
+        return cardDeck;
     }
 
 
