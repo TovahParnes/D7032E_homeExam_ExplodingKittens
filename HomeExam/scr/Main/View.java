@@ -78,7 +78,7 @@ public class View {
         printServer(message);
     }
 
-    public void currentPlayer(int currentPlayer) {
+    public void printCurrentPlayer(int currentPlayer) {
         printServer("Current player: " + currentPlayer);
     }
 

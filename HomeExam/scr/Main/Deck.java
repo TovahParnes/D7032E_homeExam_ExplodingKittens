@@ -6,11 +6,10 @@ import java.util.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
+import HomeExam.scr.Main.CardStack.CardStack;
 import HomeExam.scr.Main.Cards.Card;
-
-public class Deck {
+public class Deck extends CardStack {
     private static ArrayList<Card> cardDeck;
 
     /**
@@ -44,7 +43,6 @@ public class Deck {
 
     private void addCards(String type, int quantity) throws Exception
     {   
-        boolean cardFound = false;
         try {
             Class<?> cardClass = Class.forName("HomeExam.scr.Main.Cards." + type + "Card");
             Constructor<?> cardConstructor = cardClass.getConstructor();
@@ -52,26 +50,10 @@ public class Deck {
                 Card cardInstance = (Card) cardConstructor.newInstance();
                 cardDeck.add(cardInstance);
             }
-            cardFound = true;
         } catch (Exception e) {
-            //throw new Exception("Card type not found");
-        }
-        if (!cardFound) {
-            System.out.println("Card type " + type + " not found");
+            throw new Exception("Card type not found");
         }
     }
-
-    public void shuffleDeck()
-    {
-        Collections.shuffle(cardDeck);
-    }
-
-    public ArrayList<Card> getDeck()
-    {
-        return cardDeck;
-    }
-
-
 }
 
 

@@ -33,10 +33,10 @@ public class Server {
         addOnlinePlayers(numOnlinePlayers, view);
 
         deck = new Deck("originalGameCards");
-        deck.shuffleDeck();
+        deck.shuffle();
 
         int currentPlayer = setCurrentPlayer();
-        view.currentPlayer(currentPlayer);
+        view.printCurrentPlayer(currentPlayer);
         
         boolean gameOver = false;
         if(!testBool)
