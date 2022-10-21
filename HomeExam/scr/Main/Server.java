@@ -10,7 +10,6 @@ import HomeExam.scr.Main.Players.Player;
 
 public class Server {
 
-    private static ArrayList<PlayedCard> playedCards = new ArrayList<PlayedCard>();
     private ArrayList<Player> players = new ArrayList<Player>();
     private View view;
     private Random random;

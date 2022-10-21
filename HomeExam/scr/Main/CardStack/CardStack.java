@@ -16,12 +16,20 @@ public class CardStack {
         this.cardStack.add(card);
     }
 
+    public void removeCard(Card card) {
+        this.cardStack.remove(card);
+    }
+
     public void addCards(ArrayList<Card> cards) {
         this.cardStack.addAll(cards);
     }
 
     public Card getCard() {
         return this.cardStack.remove(0);
+    }
+
+    public Boolean containsCard(Card card){
+        return this.cardStack.contains(card);
     }
 
     public void addCardInPlace(Card card, int index) {
