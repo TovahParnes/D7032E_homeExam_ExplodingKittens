@@ -33,13 +33,11 @@ public class Server {
         addOnlinePlayers(numOnlinePlayers, view);
 
         deck = new Deck("originalGameCards");
-        view.printDeck(deck.getDeck());
         deck.shuffleDeck();
-        view.printDeck(deck.getDeck());
 
         int currentPlayer = setCurrentPlayer();
-        System.out.println(currentPlayer);
-
+        view.currentPlayer(currentPlayer);
+        
         boolean gameOver = false;
         if(!testBool)
         {
@@ -55,6 +53,7 @@ public class Server {
      * @throws Exception
      */
     private void startGameLoop(boolean finished, int currentPlayer, int numPlayers) throws Exception{
+        view.printServer("Started game loop");
         while(!finished) {
             
         }

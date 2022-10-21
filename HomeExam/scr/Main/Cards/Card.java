@@ -4,7 +4,7 @@ abstract public class Card {
 
     protected String name;
     protected String description;
-    protected Boolean isPlayable = true;
+    protected Boolean isPlayable;
     
     public void onDraw(){}
 

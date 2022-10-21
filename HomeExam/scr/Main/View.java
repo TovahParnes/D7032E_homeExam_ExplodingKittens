@@ -78,4 +78,8 @@ public class View {
         printServer(message);
     }
 
+    public void currentPlayer(int currentPlayer) {
+        printServer("Current player: " + currentPlayer);
+    }
+
 }
