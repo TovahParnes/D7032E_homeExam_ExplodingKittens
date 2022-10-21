@@ -1,4 +1,4 @@
-package HomeExam.scr.Main;
+package HomeExam.scr.Main.CardStack;
 
 import java.io.FileReader;
 import java.lang.reflect.*;
@@ -7,10 +7,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import HomeExam.scr.Main.CardStack.CardStack;
 import HomeExam.scr.Main.Cards.Card;
 public class Deck extends CardStack {
-    private static ArrayList<Card> cardDeck;
+    private static ArrayList<Card> cardStack;
 
     /**
      * 
@@ -18,7 +17,7 @@ public class Deck extends CardStack {
      */
     public Deck(String cardsFile) throws Exception
     {   
-        cardDeck = new ArrayList<Card>();
+        cardStack = new ArrayList<Card>();
         generateDeck(cardsFile);
     }
 
@@ -48,11 +47,29 @@ public class Deck extends CardStack {
             Constructor<?> cardConstructor = cardClass.getConstructor();
             for (int i = 0; i < quantity; i++) {
                 Card cardInstance = (Card) cardConstructor.newInstance();
-                cardDeck.add(cardInstance);
+                addCard(cardInstance);
             }
         } catch (Exception e) {
             throw new Exception("Card type not found");
         }
+    }
+
+    public CardStack generateHand(int handSize)
+    {
+        CardStack hand = new CardStack();
+        System.out.println("Deck length: " + getCardStackLength());
+
+        for (int i = 0; i < handSize; i++) {
+            Card card = getCard();
+            if (card.getIsDealable()) {
+                hand.addCard(card);
+            } else {
+                addCardInPlace( card, getCardStackLength() - 1);
+                i--;
+            }
+        }
+        shuffle();
+        return hand;
     }
 }
 

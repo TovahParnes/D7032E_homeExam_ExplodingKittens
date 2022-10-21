@@ -36,11 +36,20 @@ public class Player {
         return hand.containsCard(card);
     }
 
-    public ArrayList<Card> getHand()
+    public CardStack getHand()
     {
-        return hand.getCardStack();
+        return hand;
+    }
+
+    public void setHand(CardStack hand) {
+        this.hand = hand;
+	}
+
+    public int getPlayerId(){
+        return PLAYER_ID;
     }
     
     public class Bot extends Player{}
-        
+
+	
 }

@@ -20,10 +20,6 @@ public class CardStack {
         this.cardStack.remove(card);
     }
 
-    public void addCards(ArrayList<Card> cards) {
-        this.cardStack.addAll(cards);
-    }
-
     public Card getCard() {
         return this.cardStack.remove(0);
     }
@@ -41,7 +37,7 @@ public class CardStack {
         Collections.shuffle(cardStack);
     }
 
-    public ArrayList<Card> getCardStack()
+    public ArrayList<Card> getCardStackAsArray()
     {
         return cardStack;
     }
@@ -50,6 +46,11 @@ public class CardStack {
     {
         Set<Card> handSet = new HashSet<Card>(cardStack);
         return handSet;
+    }
+
+    public int getCardStackLength()
+    {
+        return cardStack.size();
     }
 
 }

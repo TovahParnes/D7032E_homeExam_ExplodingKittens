@@ -5,6 +5,7 @@ import java.net.*;
 import java.util.*;
 import java.util.concurrent.*;
 
+import HomeExam.scr.Main.CardStack.Deck;
 import HomeExam.scr.Main.Players.OnlinePlayer;
 import HomeExam.scr.Main.Players.Player;
 
@@ -29,10 +30,16 @@ public class Server {
             throw new Exception("Not a valid amount of players");       //XX: Add so that handles error and hangles total num players+bots
         }
 
-        addOnlinePlayers(numOnlinePlayers, view);
-
         deck = new Deck("originalGameCards");
         deck.shuffle();
+        addOnlinePlayers(numOnlinePlayers, view);
+        System.out.println("Deck length: " + deck.getCardStackLength());
+
+        for (Player player : players) {
+            player.setHand(deck.generateHand(7));
+            view.sendMessage(player, view.printHand(player));
+            
+        }
 
         int currentPlayer = setCurrentPlayer();
         view.printCurrentPlayer(currentPlayer);

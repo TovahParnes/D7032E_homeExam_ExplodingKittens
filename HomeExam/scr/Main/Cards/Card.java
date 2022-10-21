@@ -5,10 +5,11 @@ abstract public class Card {
     protected String name;
     protected String description;
     protected Boolean isPlayable;
+    protected Boolean isDealable = true;
     
     public void onDraw(){}
 
-    public void onPlay(){}
+    public void onPlay(){} 
 
     public String getName(){
         return this.name;
@@ -21,5 +22,12 @@ abstract public class Card {
     public Boolean getIsPlayable(){
         return isPlayable;
     }
-    
+
+    public Boolean getIsDealable(){
+        return isDealable;
+    }
+
+    public String getCardInfo(){
+        return this.name + ": " + this.description;
+    }    
 }
