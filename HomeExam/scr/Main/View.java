@@ -7,11 +7,15 @@ import HomeExam.scr.Main.Players.Player;
 
 public class View {
 
+    public void printServer(String message){
+        System.out.println(message);
+    }
+
     public void sendMessage(Player player, Object message) {
         try {player.outToClient.writeObject(message);} 
         catch (Exception e) 
         {
-            System.out.println("Sending to client failed: " + e.getMessage());
+            printServer("Sending to client failed: " + e.getMessage());
         }
     }
 
@@ -20,17 +24,17 @@ public class View {
         try{
             word = (String) player.inFromClient.readObject();
         } catch (Exception e){
-            System.out.println("Reading from client failed: " + e.getMessage());
+            printServer("Reading from client failed: " + e.getMessage());
         }
         return word;
     }	
 
     public void printErrorStart(){
-        System.out.println("Something went wrong");
+        printServer("Something went wrong");
     }
 
     public void printConnection(int onlineClient){
-        System.out.println("Connected to Player ID: " + (onlineClient));
+        printServer("Connected to Player ID: " + (onlineClient));
     }
 
     public String playerTurn(Player player){
@@ -64,6 +68,14 @@ public class View {
 
     public String drawCard(Card card){
         return "You drew: " + card.getName();
+    }
+
+    public void printDeck(ArrayList<Card> deck) {
+        String message = "Deck: \n";
+        for (Card card : deck) {
+            message += card.getName() + ": " + card.getDescription() + "\n";
+        }
+        printServer(message);
     }
 
 }

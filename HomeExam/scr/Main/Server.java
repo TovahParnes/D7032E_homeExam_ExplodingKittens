@@ -32,8 +32,10 @@ public class Server {
 
         addOnlinePlayers(numOnlinePlayers, view);
 
-        deck = new Deck("TestGameCards");
-
+        deck = new Deck("originalGameCards");
+        view.printDeck(deck.getDeck());
+        deck.shuffleDeck();
+        view.printDeck(deck.getDeck());
 
         int currentPlayer = setCurrentPlayer();
         System.out.println(currentPlayer);
@@ -75,7 +77,6 @@ public class Server {
     public int setCurrentPlayer()
     {
         return ThreadLocalRandom.current().nextInt(players.size());
-        //return Random().nextInt(players.size());
     }
 
 

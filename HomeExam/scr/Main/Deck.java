@@ -20,7 +20,6 @@ public class Deck {
     public Deck(String cardsFile) throws Exception
     {   
         cardDeck = new ArrayList<Card>();
-
         generateDeck(cardsFile);
     }
 
@@ -45,16 +44,24 @@ public class Deck {
 
     private void addCards(String type, int quantity) throws Exception
     {   
-        //TODO: add try catch
-        Class<?> cardClass = Class.forName("HomeExam.scr.Main.Cards." + type + "Card");
-        Constructor<?> cardConstructor = cardClass.getConstructor();
-        for (int i = 0; i < quantity; i++) {
-            Card cardInstance = (Card) cardConstructor.newInstance();
-            cardDeck.add(cardInstance);
+        boolean cardFound = false;
+        try {
+            Class<?> cardClass = Class.forName("HomeExam.scr.Main.Cards." + type + "Card");
+            Constructor<?> cardConstructor = cardClass.getConstructor();
+            for (int i = 0; i < quantity; i++) {
+                Card cardInstance = (Card) cardConstructor.newInstance();
+                cardDeck.add(cardInstance);
+            }
+            cardFound = true;
+        } catch (Exception e) {
+            //throw new Exception("Card type not found");
+        }
+        if (!cardFound) {
+            System.out.println("Card type " + type + " not found");
         }
     }
 
-    public void deckShuffler()
+    public void shuffleDeck()
     {
         Collections.shuffle(cardDeck);
     }
