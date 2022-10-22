@@ -24,7 +24,7 @@ public class Server {
         this.view = view;
         this.options = options;
 
-        if (options.getNUM_PLAYERS() < options.getMAX_NUM_PLAYERS() || options.getNUM_PLAYERS() > options.getMAX_NUM_PLAYERS()) {
+        if (options.getNUM_PLAYERS() < options.getMIN_NUM_PLAYERS() || options.getNUM_PLAYERS() > options.getMAX_NUM_PLAYERS()) {
             throw new Exception("Not a valid amount of players");       //XX: Add so that handles error and hangles total num players+bots
         }
 
