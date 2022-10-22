@@ -16,7 +16,6 @@ public class View {
     public void sendMessage(Player player, Object message) {
         try {
             player.outToClient.writeObject(message);
-            printServer("Sent message to player " + player.getPlayerId() + ": \n" + message);
         } catch (Exception e) {
             printServer("Sending to client failed: " + e.getMessage());
         }
@@ -84,7 +83,7 @@ public class View {
 
     private void writeYourTurn(Player player, int turnsLeft) {
         String message = "It is your turn\n\n";
-        message += ("You have " + turnsLeft + ((turnsLeft > 1) ? " turns" : " turn") + " to take");
+        message += ("You have " + turnsLeft + ((turnsLeft > 1) ? " turns" : " turn") + " to take\n");
         message += stringHand(player);
         message += stringPlayerOptions(player.getHand());
         sendMessage(player, message);
@@ -99,7 +98,6 @@ public class View {
             if (!uniqueCards.contains(card.getName())) {
                 uniqueCards.add(card.getName());
                 int count = hand.getCardCount(card);
-                System.out.println("Count of " + card.getName() + ": " + count);
                 if (count >= 1) {
                     if (card.getIsPlayable()) {
                         yourOptions += ("\t" + card.getName() + ": " + card.getDescription() + "\n");
@@ -116,6 +114,16 @@ public class View {
         yourOptions += "\tPass\n";
 
         return yourOptions;
+    }
+
+    public void writePlayersID(ArrayList<Player> players) {
+        for (Player player : players) {
+            sendMessage(player, "You are player ID: " + player.getPlayerId());
+        }
+    }
+
+    public void failedInput(Player player) {
+        sendMessage(player, "Invalid input, please try again");
     }
 
 }

@@ -25,21 +25,19 @@ public class Server {
 
         if (options.getNUM_PLAYERS() < options.getMIN_NUM_PLAYERS()
                 || options.getNUM_PLAYERS() > options.getMAX_NUM_PLAYERS()) {
-            throw new Exception("Not a valid amount of players"); // XX: Add so that handles error and hangles total num
-                                                                  // players+bots
+            throw new Exception("Not a valid amount of players"); // XX: Add so that handles error and handles total num
         }
 
         deck = new Deck(options);
         deck.shuffle();
         addOnlinePlayers(options.getNUM_ONLINE_PLAYERS(), view);
-        System.out.println("Deck length: " + deck.getCardStackLength());
 
         for (Player player : players) {
             player.setHand(deck.generateHand(options));
         }
 
         int currentPlayer = setCurrentPlayer();
-        view.printCurrentPlayer(currentPlayer);
+        view.writePlayersID(players);
 
         boolean gameOver = false;
         if (!testBool) {
@@ -58,10 +56,27 @@ public class Server {
     private void startGameLoop(boolean finished, int currentPlayer) throws Exception {
         view.printServer("Started game loop");
         while (!finished) {
+            numTurns++;
+
             view.writeNewRoundsToPlayers(players, currentPlayer, numTurns);
-            System.out.println(view.readMessage(players.get(currentPlayer)));
-            finished = true;
+
+            String playerInput = view.readMessage(players.get(currentPlayer));
+            view.printServer("Player input: " + playerInput);
+            while (!getViableOption(playerInput)) {
+                System.out.println("ViableInput: " + getViableOption(playerInput));
+                view.failedInput(players.get(currentPlayer));
+                playerInput = view.readMessage(players.get(currentPlayer));
+                view.printServer("Player input: " + playerInput);
+            }
+
+            currentPlayer = getNextPlayer(currentPlayer);
+
+            numTurns--;
         }
+    }
+
+    public boolean getViableOption(String input) {
+        return input.equals("Pass");
     }
 
     public void addOnlinePlayers(int numPlayers, View view) throws Exception {
@@ -77,6 +92,10 @@ public class Server {
 
     public int setCurrentPlayer() {
         return ThreadLocalRandom.current().nextInt(players.size());
+    }
+
+    private int getNextPlayer(int currentPlayer) {
+        return (currentPlayer + 1) % players.size();
     }
 
 }
