@@ -4,6 +4,16 @@
 		"MAX_NUM_PLAYERS": 5,
 		"DIFFUSE_CARDS_PER_PERSON": 1,
 		"NUM_CARDS_IN_HAND": 7,
-		"SECONDS_TO_PLAY_NOPE": 5
+		"SECONDS_TO_PLAY_NOPE": 5,
+		"MUN_EXPLODING_KITTENS_PER_PLAYERS": -1,
+		"CARDS_JSON_FILE": "originalGameCards",
+		"DIFFUSE_CARDS_IN_DECK": [
+			{
+				"2": 2,
+				"3": 2,
+				"4": 2,
+				"5": 1
+			}
+		]
 	}
 }

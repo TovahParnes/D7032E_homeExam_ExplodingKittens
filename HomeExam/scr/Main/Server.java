@@ -13,26 +13,24 @@ public class Server {
 
     private ArrayList<Player> players = new ArrayList<Player>();
     private View view;
+    private Options options;
     private Random random;
     private Deck deck;
 
-    private static final int MIN_NUM_PLAYERS = 2;
-    private static final int MAX_NUM_PLAYERS = 5;
-    private static int numPlayers;
+    private static int numTurns;
 
-    public Server(int numOnlinePlayers, int numBots, View view, boolean testBool) throws Exception
+    public Server(Options options, View view, boolean testBool) throws Exception
     {
         this.view = view;
-        //deckFactory.deckShuffler();
-        Server.numPlayers = numOnlinePlayers + numBots;
+        this.options = options;
 
-        if (numPlayers < MIN_NUM_PLAYERS || numPlayers > MAX_NUM_PLAYERS) {
+        if (options.getNUM_PLAYERS() < options.getMAX_NUM_PLAYERS() || options.getNUM_PLAYERS() > options.getMAX_NUM_PLAYERS()) {
             throw new Exception("Not a valid amount of players");       //XX: Add so that handles error and hangles total num players+bots
         }
 
-        deck = new Deck("originalGameCards");
+        deck = new Deck(options);
         deck.shuffle();
-        addOnlinePlayers(numOnlinePlayers, view);
+        addOnlinePlayers(options.getNUM_ONLINE_PLAYERS(), view);
         System.out.println("Deck length: " + deck.getCardStackLength());
 
         for (Player player : players) {
@@ -50,6 +48,8 @@ public class Server {
             startGameLoop(gameOver, currentPlayer, numPlayers);
         }
     }
+
+    
 
     /**
      * Starts the game by running the game loop
