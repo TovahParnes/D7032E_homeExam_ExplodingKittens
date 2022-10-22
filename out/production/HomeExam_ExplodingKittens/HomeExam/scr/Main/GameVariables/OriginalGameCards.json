@@ -44,5 +44,13 @@
 			"type": "OverweightBikiniCat",
 			"quantity": 4
 		}
+	],
+	"specialCards": [
+		{
+			"type": "Defuse"
+		},
+		{
+			"type": "ExplodingKitten"
+		}
 	]
 }

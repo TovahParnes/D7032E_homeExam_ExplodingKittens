@@ -7,37 +7,64 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import HomeExam.scr.Main.Options;
 import HomeExam.scr.Main.Cards.Card;
+import HomeExam.scr.Main.Cards.DefuseCard;
 public class Deck extends CardStack {
-    private static ArrayList<Card> cardStack;
-
     /**
      * 
      * @throws Exception
      */
-    public Deck(String cardsFile) throws Exception
+    public Deck(Options options) throws Exception
     {   
         cardStack = new ArrayList<Card>();
-        generateDeck(cardsFile);
+        generateDeck(options);
     }
 
-    private void generateDeck(String cardsFile) throws Exception
+    private void generateDeck(Options options) throws Exception
     {
-        readCardJSON(cardsFile);
+        readCardJSON(options);
+
     }
 
-    private void readCardJSON(String gameCardsFileName) throws Exception
+    private void readCardJSON(Options options) throws Exception
     {
+        String gameCardsFileName = options.getCARDS_JSON_FILE();
         JSONParser parser = new JSONParser();
 
-        JSONObject a = (JSONObject) parser.parse(new FileReader("HomeExam/scr/Main/GameVariables/" + gameCardsFileName + ".json"));
-        JSONArray cardsArrayJson = (JSONArray) a.get("cards");
+        JSONObject obj = (JSONObject) parser.parse(new FileReader("HomeExam/scr/Main/GameVariables/" + gameCardsFileName + ".json"));
+        JSONArray cardsArrayJson = (JSONArray) obj.get("cards");
         for (Object cardJson : cardsArrayJson) {
             JSONObject cardObject = (JSONObject) cardJson;
             String cardType = (String) cardObject.get("type");
             Long cardQuantity = (Long) cardObject.get("quantity");
             addCards(cardType, cardQuantity.intValue());
         }
+
+        JSONArray specialCardsArrayJson = (JSONArray) obj.get("specialCards");
+        for (Object cardJson : specialCardsArrayJson) {
+            JSONObject cardObject = (JSONObject) cardJson;
+            String cardType = (String) cardObject.get("type");
+
+            int cardQuantity = getOptionsQuantity(cardType, options);
+            addCards(cardType, cardQuantity);
+        }
+    }
+
+    private int getOptionsQuantity(String cardType, Options options)
+    {
+        int quantity = 0;
+        switch (cardType) {
+            case "ExplodingKitten":
+                quantity = options.getNUM_EXPLODING_KITTENS();
+                break;
+            case "Defuse":
+                quantity = options.getNUM_DEFUSE_CARDS();
+                break;
+            default:
+                break;
+        }
+        return quantity;
     }
 
     private void addCards(String type, int quantity) throws Exception
@@ -54,12 +81,15 @@ public class Deck extends CardStack {
         }
     }
 
-    public CardStack generateHand(int handSize)
+    public CardStack generateHand(Options options)
     {
         CardStack hand = new CardStack();
         System.out.println("Deck length: " + getCardStackLength());
 
-        for (int i = 0; i < handSize; i++) {
+        for (int i = 0; i < options.getDEFUSE_CARDS_PER_PERSON(); i++) {
+            hand.addCard(new DefuseCard());
+        }
+        for (int i = 0; i < options.getNUM_CARDS_IN_HAND(); i++) {
             Card card = getCard();
             if (card.getIsDealable()) {
                 hand.addCard(card);

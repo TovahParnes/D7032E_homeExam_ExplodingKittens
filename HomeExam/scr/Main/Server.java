@@ -34,7 +34,7 @@ public class Server {
         System.out.println("Deck length: " + deck.getCardStackLength());
 
         for (Player player : players) {
-            player.setHand(deck.generateHand(7));
+            player.setHand(deck.generateHand(options));
             view.sendMessage(player, view.printHand(player));
             
         }
@@ -45,7 +45,7 @@ public class Server {
         boolean gameOver = false;
         if(!testBool)
         {
-            startGameLoop(gameOver, currentPlayer, numPlayers);
+            startGameLoop(gameOver, currentPlayer, options.getNUM_PLAYERS());
         }
     }
 

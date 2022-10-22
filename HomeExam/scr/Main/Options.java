@@ -10,21 +10,22 @@ public class Options {
 
     private static int MIN_NUM_PLAYERS;
     private static int MAX_NUM_PLAYERS;
-    private static int DIFFUSE_CARDS_PER_PERSON;
+    private static int DEFUSE_CARDS_PER_PERSON;
     private static int NUM_CARDS_IN_HAND;
     private static int SECONDS_TO_PLAY_NOPE;
-    private static int MUN_EXPLODING_KITTENS_PER_PLAYERS;
-    private static int DIFFUSE_CARDS_IN_DECK;
+    private static int NUM_EXPLODING_KITTENS;
+    private static int NUM_DEFUSE_CARDS;
     private static String CARDS_JSON_FILE;
 
     private static int NUM_ONLINE_PLAYERS;
     private static int NUM_BOTS;
-    private static int NUM_PLAYERS = NUM_ONLINE_PLAYERS + NUM_BOTS;
+    private static int NUM_PLAYERS;
 
     public Options(String fileName, int numOnlinePlayers, int numBots) throws Exception{
         NUM_ONLINE_PLAYERS = numOnlinePlayers;
         NUM_BOTS = numBots;
-        readOptionsJSON(fileName, NUM_PLAYERS);
+        NUM_PLAYERS = NUM_ONLINE_PLAYERS + NUM_BOTS;
+        readOptionsJSON(fileName);
     }
 
     public int getMIN_NUM_PLAYERS() {
@@ -35,8 +36,8 @@ public class Options {
         return MAX_NUM_PLAYERS;
     }
 
-    public int getDIFFUSE_CARDS_PER_PERSON() {
-        return DIFFUSE_CARDS_PER_PERSON;
+    public int getDEFUSE_CARDS_PER_PERSON() {
+        return DEFUSE_CARDS_PER_PERSON;
     }
 
     public int getNUM_CARDS_IN_HAND() {
@@ -47,12 +48,12 @@ public class Options {
         return SECONDS_TO_PLAY_NOPE;
     }
 
-    public int getMUN_EXPLODING_KITTENS_PER_PLAYERS() {
-        return MUN_EXPLODING_KITTENS_PER_PLAYERS;
+    public int getNUM_EXPLODING_KITTENS() {
+        return NUM_EXPLODING_KITTENS;
     }
 
-    public int getDIFFUSE_CARDS_IN_DECK() {
-        return DIFFUSE_CARDS_IN_DECK;
+    public int getNUM_DEFUSE_CARDS() {
+        return NUM_DEFUSE_CARDS;
     }
 
     public int getNUM_ONLINE_PLAYERS() {
@@ -67,27 +68,30 @@ public class Options {
         return NUM_PLAYERS;
     }
 
-    public static void readOptionsJSON(String fileName, int numPlayers) throws Exception
+    public String getCARDS_JSON_FILE() {
+        return CARDS_JSON_FILE;
+    }
+
+    public static void readOptionsJSON(String fileName) throws Exception
     {
         try {
             JSONParser parser = new JSONParser();
             Object obj = parser.parse(new FileReader("HomeExam/scr/Main/GameVariables/" + fileName + ".json"));
             JSONObject jsonObject = (JSONObject) obj;
-            MIN_NUM_PLAYERS = Integer.parseInt(jsonObject.get("MIN_NUM_PLAYERS").toString());
-            MAX_NUM_PLAYERS = Integer.parseInt(jsonObject.get("MAX_NUM_PLAYERS").toString());
-            DIFFUSE_CARDS_PER_PERSON = Integer.parseInt(jsonObject.get("DIFFUSE_CARDS_PER_PERSON").toString());
-            NUM_CARDS_IN_HAND = Integer.parseInt(jsonObject.get("NUM_CARDS_IN_HAND").toString());
-            SECONDS_TO_PLAY_NOPE = Integer.parseInt(jsonObject.get("SECONDS_TO_PLAY_NOPE").toString());
-            MUN_EXPLODING_KITTENS_PER_PLAYERS = numPlayers + Integer.parseInt(jsonObject.get("MUN_EXPLODING_KITTENS_PER_PLAYERS").toString());
-            CARDS_JSON_FILE = jsonObject.get("CARDS_JSON_FILE").toString();
-            JSONArray diffuseCardsArrayJson = (JSONArray) jsonObject.get("DIFFUSE_CARDS_IN_DECK");
-            System.out.println(diffuseCardsArrayJson.get(numPlayers));
-            DIFFUSE_CARDS_IN_DECK = (int) diffuseCardsArrayJson.get(numPlayers);
+            MIN_NUM_PLAYERS = ((Long) jsonObject.get("MIN_NUM_PLAYERS")).intValue();
+            MAX_NUM_PLAYERS = ((Long) jsonObject.get("MAX_NUM_PLAYERS")).intValue();
+            DEFUSE_CARDS_PER_PERSON = ((Long) jsonObject.get("DEFUSE_CARDS_PER_PERSON")).intValue();
+            NUM_CARDS_IN_HAND = ((Long) jsonObject.get("NUM_CARDS_IN_HAND")).intValue();
+            SECONDS_TO_PLAY_NOPE = ((Long) jsonObject.get("SECONDS_TO_PLAY_NOPE")).intValue();
+            NUM_EXPLODING_KITTENS = NUM_PLAYERS + ((Long) jsonObject.get("NUM_EXPLODING_KITTENS_PER_PLAYERS")).intValue();
+            CARDS_JSON_FILE = (String) jsonObject.get("CARDS_JSON_FILE");
+
+            JSONObject defuseCardsObject = (JSONObject) jsonObject.get("DEFUSE_CARDS_IN_DECK");
+            String numPlayers = Integer.toString(NUM_PLAYERS);    
+            NUM_DEFUSE_CARDS = ((Long) defuseCardsObject.get(numPlayers)).intValue();
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println(e.getMessage());
         }
     }
-    
-    
 }
 
