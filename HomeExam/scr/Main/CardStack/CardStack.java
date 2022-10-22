@@ -24,7 +24,7 @@ public class CardStack {
         return this.cardStack.remove(0);
     }
 
-    public Boolean containsCard(Card card){
+    public Boolean containsCard(Card card) {
         return this.cardStack.contains(card);
     }
 
@@ -32,28 +32,44 @@ public class CardStack {
         this.cardStack.add(index, card);
     }
 
-    public void shuffle()
-    {
+    public void shuffle() {
         Collections.shuffle(cardStack);
     }
 
-    public ArrayList<Card> getCardStackAsArray()
-    {
+    public ArrayList<Card> getCardStackAsArray() {
         return cardStack;
     }
 
-    public int getCardStackLength()
-    {
+    public int getCardStackLength() {
         return cardStack.size();
     }
 
-    public String getCardsString()
-    {
+    public String getCardsString() {
         String cardsString = "[";
         for (Card card : cardStack) {
             cardsString += card.getName() + ", ";
-        cardsString += "]";
         }
+        cardsString += "]";
         return cardsString;
+    }
+
+    public int getCardCount(Card card) {
+        int count = 0;
+        for (Card cardInStack : cardStack) {
+            if (cardInStack.getName().equals(card.getName())) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public CardStack getUniqueCards() {
+        CardStack uniqueCards = new CardStack();
+        for (Card card : cardStack) {
+            if (!uniqueCards.containsCard(card)) {
+                uniqueCards.addCard(card);
+            }
+        }
+        return uniqueCards;
     }
 }

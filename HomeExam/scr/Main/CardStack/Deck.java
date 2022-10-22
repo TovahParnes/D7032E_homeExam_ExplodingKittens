@@ -10,29 +10,29 @@ import org.json.simple.parser.JSONParser;
 import HomeExam.scr.Main.Options;
 import HomeExam.scr.Main.Cards.Card;
 import HomeExam.scr.Main.Cards.DefuseCard;
+import HomeExam.scr.Main.Cards.SkipCard;
+
 public class Deck extends CardStack {
     /**
      * 
      * @throws Exception
      */
-    public Deck(Options options) throws Exception
-    {   
+    public Deck(Options options) throws Exception {
         cardStack = new ArrayList<Card>();
         generateDeck(options);
     }
 
-    private void generateDeck(Options options) throws Exception
-    {
+    private void generateDeck(Options options) throws Exception {
         readCardJSON(options);
 
     }
 
-    private void readCardJSON(Options options) throws Exception
-    {
+    private void readCardJSON(Options options) throws Exception {
         String gameCardsFileName = options.getCARDS_JSON_FILE();
         JSONParser parser = new JSONParser();
 
-        JSONObject obj = (JSONObject) parser.parse(new FileReader("HomeExam/scr/Main/GameVariables/" + gameCardsFileName + ".json"));
+        JSONObject obj = (JSONObject) parser
+                .parse(new FileReader("HomeExam/scr/Main/GameVariables/" + gameCardsFileName + ".json"));
         JSONArray cardsArrayJson = (JSONArray) obj.get("cards");
         for (Object cardJson : cardsArrayJson) {
             JSONObject cardObject = (JSONObject) cardJson;
@@ -51,8 +51,7 @@ public class Deck extends CardStack {
         }
     }
 
-    private int getOptionsQuantity(String cardType, Options options)
-    {
+    private int getOptionsQuantity(String cardType, Options options) {
         int quantity = 0;
         switch (cardType) {
             case "ExplodingKitten":
@@ -67,8 +66,7 @@ public class Deck extends CardStack {
         return quantity;
     }
 
-    private void addCards(String type, int quantity) throws Exception
-    {   
+    private void addCards(String type, int quantity) throws Exception {
         try {
             Class<?> cardClass = Class.forName("HomeExam.scr.Main.Cards." + type + "Card");
             Constructor<?> cardConstructor = cardClass.getConstructor();
@@ -81,11 +79,8 @@ public class Deck extends CardStack {
         }
     }
 
-    public CardStack generateHand(Options options)
-    {
+    public CardStack generateHand(Options options) {
         CardStack hand = new CardStack();
-        System.out.println("Deck length: " + getCardStackLength());
-
         for (int i = 0; i < options.getDEFUSE_CARDS_PER_PERSON(); i++) {
             hand.addCard(new DefuseCard());
         }
@@ -94,7 +89,7 @@ public class Deck extends CardStack {
             if (card.getIsDealable()) {
                 hand.addCard(card);
             } else {
-                addCardInPlace( card, getCardStackLength() - 1);
+                addCardInPlace(card, getCardStackLength() - 1);
                 i--;
             }
         }
@@ -102,5 +97,3 @@ public class Deck extends CardStack {
         return hand;
     }
 }
-
-

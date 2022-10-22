@@ -5,7 +5,7 @@ import org.junit.Test;
 
 public class TestFile {
 
-    //@test
+    // @test
     public void test() {
         assertEquals(1, 1);
     }

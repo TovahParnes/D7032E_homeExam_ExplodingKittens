@@ -9,7 +9,7 @@ import HomeExam.scr.Main.Players.Player;
 
 public class View {
 
-    public void printServer(String message){
+    public void printServer(String message) {
         System.out.println(message);
     }
 
@@ -17,36 +17,34 @@ public class View {
         try {
             player.outToClient.writeObject(message);
             printServer("Sent message to player " + player.getPlayerId() + ": \n" + message);
-        } 
-        catch (Exception e) 
-        {
+        } catch (Exception e) {
             printServer("Sending to client failed: " + e.getMessage());
         }
     }
 
     public String readMessage(Player player) {
-        String word = " "; 
-        try{
+        String word = " ";
+        try {
             word = (String) player.inFromClient.readObject();
-        } catch (Exception e){
+        } catch (Exception e) {
             printServer("Reading from client failed: " + e.getMessage());
         }
         return word;
-    }	
+    }
 
-    public void printErrorStart(){
+    public void printErrorStart() {
         printServer("Something went wrong");
     }
 
-    public void printConnection(int onlineClient){
+    public void printConnection(int onlineClient) {
         printServer("Connected to Player ID: " + (onlineClient));
     }
 
-    public String playerCards(ArrayList<Card> hand){
+    public String playerCards(ArrayList<Card> hand) {
         return "hand test";
     }
 
-    public String drawCard(Card card){
+    public String drawCard(Card card) {
         return "You drew: " + card.getName();
     }
 
@@ -64,7 +62,7 @@ public class View {
 
     public String stringHand(Player player) {
         String message = "Your hand: \n";
-        message += player.getHand().getCardsString();
+        message += player.getHand().getCardsString() + "\n";
         return message;
     }
 
@@ -86,27 +84,35 @@ public class View {
 
     private void writeYourTurn(Player player, int turnsLeft) {
         String message = "It is your turn\n\n";
-        message += ("\nYou have " + turnsLeft + ((turnsLeft>1)?" turns":" turn") + " to take");
+        message += ("You have " + turnsLeft + ((turnsLeft > 1) ? " turns" : " turn") + " to take");
         message += stringHand(player);
         message += stringPlayerOptions(player.getHand());
         sendMessage(player, message);
     }
 
-    public String stringPlayerOptions(Hand hand){
+    public String stringPlayerOptions(Hand hand) {
+        ArrayList<String> uniqueCards = new ArrayList<String>();
 
         String yourOptions = "You have the following options:\n";
 
-        Set<Card> handSet = hand.getHandSet();
-        for(Card card : handSet) {
-            if (card.getIsPlayable()){
-                yourOptions += ("\t" + card.getName() + ": " + card.getDescription() + "\n");
+        for (Card card : hand.getCardStackAsArray()) {
+            if (!uniqueCards.contains(card.getName())) {
+                uniqueCards.add(card.getName());
+                int count = hand.getCardCount(card);
+                System.out.println("Count of " + card.getName() + ": " + count);
+                if (count >= 1) {
+                    if (card.getIsPlayable()) {
+                        yourOptions += ("\t" + card.getName() + ": " + card.getDescription() + "\n");
+                    }
+                }
+                if (count >= 2)
+                    yourOptions += "\tTwo " + card.getName() + " [target] (available targets: "
+                            + /* otherPlayerIDs + */ ") (Steal random card)\n";
+                if (count >= 3)
+                    yourOptions += "\tThree " + card.getName() + " [target] [Card Type] (available targets: "
+                            + /* otherPlayerIDs + */ ") (Name and pick a card)\n";
             }
-            int count = Collections.frequency(hand.getCardStackAsArray(), card);
-            if(count>=2)
-                yourOptions += "\tTwo " + card.getName() + " [target] (available targets: " + /*otherPlayerIDs +*/ ") (Steal random card)\n";
-            if(count>=3)
-                yourOptions += "\tThree " + card.getName() + " [target] [Card Type] (available targets: " + /*otherPlayerIDs +*/ ") (Name and pick a card)\n";
-        }  
+        }
         yourOptions += "\tPass\n";
 
         return yourOptions;
