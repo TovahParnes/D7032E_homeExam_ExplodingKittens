@@ -47,4 +47,13 @@ public class CardStack {
         return cardStack.size();
     }
 
+    public String getCardsString()
+    {
+        String cardsString = "[";
+        for (Card card : cardStack) {
+            cardsString += card.getName() + ", ";
+        cardsString += "]";
+        }
+        return cardsString;
+    }
 }

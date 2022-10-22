@@ -3,6 +3,7 @@ package HomeExam.scr.Main;
 import java.util.*;
 
 import HomeExam.scr.Main.CardStack.CardStack;
+import HomeExam.scr.Main.CardStack.Hand;
 import HomeExam.scr.Main.Cards.Card;
 import HomeExam.scr.Main.Players.Player;
 
@@ -41,34 +42,8 @@ public class View {
         printServer("Connected to Player ID: " + (onlineClient));
     }
 
-    public String playerTurn(Player player){
-        String message = ("\nYou have " + player.getTurnsLeft() + ((player.getTurnsLeft()>1)?" turns":" turn") + " to take");
-        message += printHand(player);
-        message += playerOptions(player.getHand().getCardStackAsArray());
-        return message;
-    }
-
     public String playerCards(ArrayList<Card> hand){
         return "hand test";
-    }
-
-    public String playerOptions(ArrayList<Card> hand){
-
-        String yourOptions = "You have the following options:\n";
-        Set<Card> handSet = new HashSet<Card>(hand);
-        for(Card card : handSet) {
-            if (card.getIsPlayable()){
-                yourOptions += ("\t" + card.getName() + ": " + card.getDescription() + "\n");
-            }
-            int count = Collections.frequency(hand, card);
-            if(count>=2)
-                yourOptions += "\tTwo " + card.getName() + " [target] (available targets: " + /*otherPlayerIDs +*/ ") (Steal random card)\n";
-            if(count>=3)
-                yourOptions += "\tThree " + card.getName() + " [target] [Card Type] (available targets: " + /*otherPlayerIDs +*/ ") (Name and pick a card)\n";
-        }  
-        yourOptions += "\tPass\n";
-
-        return yourOptions;
     }
 
     public String drawCard(Card card){
@@ -87,13 +62,54 @@ public class View {
         printServer("Current player: " + currentPlayer);
     }
 
-    public String printHand(Player player) {
+    public String stringHand(Player player) {
         String message = "Your hand: \n";
-        CardStack hand = player.getHand();
-        for (Card card : hand.getCardStackAsArray()) {
-            message += card.getCardInfo() + "\n";
-        }
+        message += player.getHand().getCardsString();
         return message;
+    }
+
+    public void writeNewRoundsToPlayers(ArrayList<Player> players, int currentPlayer, int turnsLeft) {
+        printCurrentPlayer(currentPlayer);
+        for (Player player : players) {
+            if (player.getPlayerId() == currentPlayer) {
+                writeYourTurn(player, turnsLeft);
+            } else {
+                writeNotYourTurn(player, currentPlayer);
+            }
+        }
+    }
+
+    private void writeNotYourTurn(Player player, int currentPlayer) {
+        String message = "It is now the turn of player " + currentPlayer;
+        sendMessage(player, message);
+    }
+
+    private void writeYourTurn(Player player, int turnsLeft) {
+        String message = "It is your turn\n\n";
+        message += ("\nYou have " + turnsLeft + ((turnsLeft>1)?" turns":" turn") + " to take");
+        message += stringHand(player);
+        message += stringPlayerOptions(player.getHand());
+        sendMessage(player, message);
+    }
+
+    public String stringPlayerOptions(Hand hand){
+
+        String yourOptions = "You have the following options:\n";
+
+        Set<Card> handSet = hand.getHandSet();
+        for(Card card : handSet) {
+            if (card.getIsPlayable()){
+                yourOptions += ("\t" + card.getName() + ": " + card.getDescription() + "\n");
+            }
+            int count = Collections.frequency(hand.getCardStackAsArray(), card);
+            if(count>=2)
+                yourOptions += "\tTwo " + card.getName() + " [target] (available targets: " + /*otherPlayerIDs +*/ ") (Steal random card)\n";
+            if(count>=3)
+                yourOptions += "\tThree " + card.getName() + " [target] [Card Type] (available targets: " + /*otherPlayerIDs +*/ ") (Name and pick a card)\n";
+        }  
+        yourOptions += "\tPass\n";
+
+        return yourOptions;
     }
 
 }

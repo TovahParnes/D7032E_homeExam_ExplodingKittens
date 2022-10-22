@@ -35,8 +35,6 @@ public class Server {
 
         for (Player player : players) {
             player.setHand(deck.generateHand(options));
-            view.sendMessage(player, view.printHand(player));
-            
         }
 
         int currentPlayer = setCurrentPlayer();
@@ -45,7 +43,7 @@ public class Server {
         boolean gameOver = false;
         if(!testBool)
         {
-            startGameLoop(gameOver, currentPlayer, options.getNUM_PLAYERS());
+            startGameLoop(gameOver, currentPlayer);
         }
     }
 
@@ -58,10 +56,11 @@ public class Server {
      * @param numPlayers the number of online players
      * @throws Exception
      */
-    private void startGameLoop(boolean finished, int currentPlayer, int numPlayers) throws Exception{
+    private void startGameLoop(boolean finished, int currentPlayer) throws Exception{
         view.printServer("Started game loop");
         while(!finished) {
-            
+            view.writeNewRoundsToPlayers(players, currentPlayer, numTurns);
+            finished = true;
         }
     }
 

@@ -13,17 +13,12 @@ public class Player {
 
     protected int PLAYER_ID;
     protected Hand hand;
-    protected int turnsLeft;
     protected Socket connection;
     protected boolean exploded = false;
     public ObjectInputStream inFromClient;
     public ObjectOutputStream outToClient;
     Scanner in = new Scanner(System.in);
     protected View view;
-
-    public int getTurnsLeft(){
-        return turnsLeft;
-    }
 
     public void addCard(Card card){
         hand.addCard(card);
