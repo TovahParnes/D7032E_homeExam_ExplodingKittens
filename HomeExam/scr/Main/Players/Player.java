@@ -6,12 +6,13 @@ import java.util.*;
 
 import HomeExam.scr.Main.View;
 import HomeExam.scr.Main.CardStack.CardStack;
+import HomeExam.scr.Main.CardStack.Hand;
 import HomeExam.scr.Main.Cards.Card;
 
 public class Player {
 
     protected int PLAYER_ID;
-    protected CardStack hand;
+    protected Hand hand;
     protected int turnsLeft;
     protected Socket connection;
     protected boolean exploded = false;
@@ -36,13 +37,13 @@ public class Player {
         return hand.containsCard(card);
     }
 
-    public CardStack getHand()
+    public Hand getHand()
     {
         return hand;
     }
 
     public void setHand(CardStack hand) {
-        this.hand = hand;
+        this.hand = new Hand(hand);
 	}
 
     public int getPlayerId(){

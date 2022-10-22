@@ -42,12 +42,6 @@ public class CardStack {
         return cardStack;
     }
 
-    public Set<Card> getHandSet()
-    {
-        Set<Card> handSet = new HashSet<Card>(cardStack);
-        return handSet;
-    }
-
     public int getCardStackLength()
     {
         return cardStack.size();
