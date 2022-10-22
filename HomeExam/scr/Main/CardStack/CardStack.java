@@ -62,14 +62,4 @@ public class CardStack {
         }
         return count;
     }
-
-    public CardStack getUniqueCards() {
-        CardStack uniqueCards = new CardStack();
-        for (Card card : cardStack) {
-            if (!uniqueCards.containsCard(card)) {
-                uniqueCards.addCard(card);
-            }
-        }
-        return uniqueCards;
-    }
 }

@@ -19,13 +19,14 @@ public class Server {
 
     private static int numTurns;
 
-    public Server(Options options, View view, boolean testBool) throws Exception
-    {
+    public Server(Options options, View view, boolean testBool) throws Exception {
         this.view = view;
         this.options = options;
 
-        if (options.getNUM_PLAYERS() < options.getMIN_NUM_PLAYERS() || options.getNUM_PLAYERS() > options.getMAX_NUM_PLAYERS()) {
-            throw new Exception("Not a valid amount of players");       //XX: Add so that handles error and hangles total num players+bots
+        if (options.getNUM_PLAYERS() < options.getMIN_NUM_PLAYERS()
+                || options.getNUM_PLAYERS() > options.getMAX_NUM_PLAYERS()) {
+            throw new Exception("Not a valid amount of players"); // XX: Add so that handles error and hangles total num
+                                                                  // players+bots
         }
 
         deck = new Deck(options);
@@ -39,37 +40,33 @@ public class Server {
 
         int currentPlayer = setCurrentPlayer();
         view.printCurrentPlayer(currentPlayer);
-        
+
         boolean gameOver = false;
-        if(!testBool)
-        {
+        if (!testBool) {
             startGameLoop(gameOver, currentPlayer);
         }
     }
 
-    
-
     /**
      * Starts the game by running the game loop
-     * @param finished boolean that checks if the game is still running or not
+     * 
+     * @param finished      boolean that checks if the game is still running or not
      * @param currentPlayer playerId of the current player
-     * @param numPlayers the number of online players
+     * @param numPlayers    the number of online players
      * @throws Exception
      */
-    private void startGameLoop(boolean finished, int currentPlayer) throws Exception{
+    private void startGameLoop(boolean finished, int currentPlayer) throws Exception {
         view.printServer("Started game loop");
-        while(!finished) {
+        while (!finished) {
             view.writeNewRoundsToPlayers(players, currentPlayer, numTurns);
+            System.out.println(view.readMessage(players.get(currentPlayer)));
             finished = true;
         }
     }
 
-
-    public void addOnlinePlayers(int numPlayers, View view) throws Exception
-    {
+    public void addOnlinePlayers(int numPlayers, View view) throws Exception {
         ServerSocket aSocket = new ServerSocket(2048);
-        for(int onlineClient=0; onlineClient<numPlayers; onlineClient++)
-        {
+        for (int onlineClient = 0; onlineClient < numPlayers; onlineClient++) {
             Socket connectionSocket = aSocket.accept();
             ObjectInputStream inFromClient = new ObjectInputStream(connectionSocket.getInputStream());
             ObjectOutputStream outToClient = new ObjectOutputStream(connectionSocket.getOutputStream());
@@ -78,11 +75,8 @@ public class Server {
         }
     }
 
-    public int setCurrentPlayer()
-    {
+    public int setCurrentPlayer() {
         return ThreadLocalRandom.current().nextInt(players.size());
     }
 
-
 }
-
