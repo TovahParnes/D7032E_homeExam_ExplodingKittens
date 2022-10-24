@@ -6,28 +6,39 @@ abstract public class Card {
     protected String description;
     protected Boolean isPlayable;
     protected Boolean isDealable = true;
-    
-    public void onDraw(){}
+    protected Boolean hasTarget = false;
 
-    public void onPlay(){} 
+    public void onDraw() {
+    }
 
-    public String getName(){
+    public void onPlay() {
+    }
+
+    public String getName() {
         return this.name;
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return this.description;
     }
 
-    public Boolean getIsPlayable(){
+    public Boolean getIsPlayable() {
         return isPlayable;
     }
 
-    public Boolean getIsDealable(){
+    public Boolean getIsDealable() {
         return isDealable;
     }
 
-    public String getCardInfo(){
+    public Boolean getHasTarget() {
+        return hasTarget;
+    }
+
+    public String getCardInfo() {
         return this.name + ": " + this.description;
-    }    
+    }
+
+    public Boolean equals(Card card) {
+        return this.name.equals(card.getName());
+    }
 }

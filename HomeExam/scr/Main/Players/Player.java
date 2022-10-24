@@ -20,32 +20,31 @@ public class Player {
     Scanner in = new Scanner(System.in);
     protected View view;
 
-    public void addCard(Card card){
+    public void addCard(Card card) {
         hand.addCard(card);
     }
 
-    public void removeCard(Card card){
+    public void removeCard(Card card) {
         hand.removeCard(card);
     }
 
-    public Boolean containsCard(Card card){
-        return hand.containsCard(card);
+    public Boolean containsCard(Card card) {
+        return hand.contains(card);
     }
 
-    public Hand getHand()
-    {
+    public Hand getHand() {
         return hand;
     }
 
     public void setHand(CardStack hand) {
         this.hand = new Hand(hand);
-	}
+    }
 
-    public int getPlayerId(){
+    public int getPLAYER_ID() {
         return PLAYER_ID;
     }
-    
-    public class Bot extends Player{}
 
-	
+    public class Bot extends Player {
+    }
+
 }

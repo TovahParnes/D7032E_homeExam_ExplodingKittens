@@ -68,7 +68,7 @@ public class View {
     public void writeNewRoundsToPlayers(ArrayList<Player> players, int currentPlayer, int turnsLeft) {
         printCurrentPlayer(currentPlayer);
         for (Player player : players) {
-            if (player.getPlayerId() == currentPlayer) {
+            if (player.getPLAYER_ID() == currentPlayer) {
                 writeYourTurn(player, turnsLeft);
             } else {
                 writeNotYourTurn(player, currentPlayer);
@@ -104,10 +104,10 @@ public class View {
                     }
                 }
                 if (count >= 2)
-                    yourOptions += "\tTwo " + card.getName() + " [target] (available targets: "
+                    yourOptions += "\t2 " + card.getName() + " [target] (available targets: "
                             + /* otherPlayerIDs + */ ") (Steal random card)\n";
                 if (count >= 3)
-                    yourOptions += "\tThree " + card.getName() + " [target] [Card Type] (available targets: "
+                    yourOptions += "\t3 " + card.getName() + " [target] [Card Type] (available targets: "
                             + /* otherPlayerIDs + */ ") (Name and pick a card)\n";
             }
         }
@@ -118,7 +118,7 @@ public class View {
 
     public void writePlayersID(ArrayList<Player> players) {
         for (Player player : players) {
-            sendMessage(player, "You are player ID: " + player.getPlayerId());
+            sendMessage(player, "You are player ID: " + player.getPLAYER_ID() + "\n");
         }
     }
 

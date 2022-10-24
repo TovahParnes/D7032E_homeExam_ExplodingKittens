@@ -24,10 +24,6 @@ public class CardStack {
         return this.cardStack.remove(0);
     }
 
-    public Boolean containsCard(Card card) {
-        return this.cardStack.contains(card);
-    }
-
     public void addCardInPlace(Card card, int index) {
         this.cardStack.add(index, card);
     }
@@ -56,10 +52,52 @@ public class CardStack {
     public int getCardCount(Card card) {
         int count = 0;
         for (Card cardInStack : cardStack) {
-            if (cardInStack.getName().equals(card.getName())) {
+            if (cardInStack.equals(card)) {
                 count++;
             }
         }
         return count;
     }
+
+    public int getCardCount(String cardName) {
+        int count = 0;
+        for (Card cardInStack : cardStack) {
+            if (cardInStack.getName().equals(cardName)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public Boolean contains(Card card) {
+        return contains(card, 1);
+    }
+
+    public Boolean contains(Card card, int num) {
+        if (getCardCount(card) >= num) {
+            return true;
+        } else
+            return false;
+    }
+
+    public Boolean contains(String name) {
+        return contains(name, 1);
+    }
+
+    public Boolean contains(String name, int num) {
+        if (getCardCount(name) >= num) {
+            return true;
+        } else
+            return false;
+    }
+
+    public Card getCard(String name) {
+        for (Card card : cardStack) {
+            if (card.getName() == name) {
+                return card;
+            }
+        }
+        return null;
+    }
+
 }
