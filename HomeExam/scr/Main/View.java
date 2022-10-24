@@ -55,8 +55,8 @@ public class View {
         printServer(message);
     }
 
-    public void printCurrentPlayer(int currentPlayer) {
-        printServer("Current player: " + currentPlayer);
+    public void printCurrentPlayer(Player currentPlayer) {
+        printServer("Current player: " + currentPlayer.getPLAYER_ID());
     }
 
     public String stringHand(Player player) {
@@ -65,10 +65,10 @@ public class View {
         return message;
     }
 
-    public void writeNewRoundsToPlayers(ArrayList<Player> players, int currentPlayer, int turnsLeft) {
+    public void writeNewRoundsToPlayers(ArrayList<Player> players, Player currentPlayer, int turnsLeft) {
         printCurrentPlayer(currentPlayer);
         for (Player player : players) {
-            if (player.getPLAYER_ID() == currentPlayer) {
+            if (player.getPLAYER_ID() == currentPlayer.getPLAYER_ID()) {
                 writeYourTurn(player, turnsLeft);
             } else {
                 writeNotYourTurn(player, currentPlayer);
@@ -76,8 +76,8 @@ public class View {
         }
     }
 
-    private void writeNotYourTurn(Player player, int currentPlayer) {
-        String message = "It is now the turn of player " + currentPlayer;
+    private void writeNotYourTurn(Player player, Player currentPlayer) {
+        String message = "It is now the turn of player " + currentPlayer.getPLAYER_ID() + "\n";
         sendMessage(player, message);
     }
 
@@ -133,4 +133,34 @@ public class View {
         printServer(messageServer);
     }
 
+    public void explodePlayer(ArrayList<Player> players, Player currentPlayer) {
+        for (Player player : players) {
+            if (player.getPLAYER_ID() == currentPlayer.getPLAYER_ID()) {
+                sendMessage(player, "You exploded");
+            } else {
+                sendMessage(player, "Player " + currentPlayer.getPLAYER_ID() + " exploded");
+            }
+            printServer("Player " + currentPlayer.getPLAYER_ID() + " exploded");
+        }
+    }
+
+    public void youDefusedExplodingKitten(Player player, int deckLegth) {
+        sendMessage(player,
+                "You defused the exploding kitten. Where do you want to place it? [0 ... " + deckLegth + "]");
+    }
+
+    public void writeDefuseExpodingKitten(ArrayList<Player> players, Player currentPlayer) {
+        for (Player player : players) {
+            if (player.getPLAYER_ID() == currentPlayer.getPLAYER_ID()) {
+                sendMessage(player, "You defused an exploding kitten!");
+            } else {
+                sendMessage(player, "Player " + currentPlayer.getPLAYER_ID() + " defused an exploding kitten");
+            }
+            printServer("Player " + currentPlayer.getPLAYER_ID() + " exploded");
+        }
+    }
+
+    public void defuseExplodingKitten(ArrayList<Player> players, Player currentPlayer) {
+        //TODO
+    }
 }

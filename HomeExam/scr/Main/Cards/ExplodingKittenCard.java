@@ -14,12 +14,17 @@ public class ExplodingKittenCard extends Card {
 
     public void onDraw(Server server, Player player) {
         if (player.getHand().contains("Defuse")) {
-            player.removeCard(new DefuseCard());
-
+            defuseExpodingKitten(server, player);
         } else {
             player.explode();
-            server.expodePlayer(player);
+            server.expodePlayer();
         }
+    }
+
+    private void defuseExpodingKitten(Server server, Player player) {
+        Card defuseCard = new DefuseCard();
+        player.removeCard(defuseCard);
+        defuseCard.onPlay(server);
     }
 
 }

@@ -22,6 +22,7 @@ public class Server {
     private CardStack cardsInGame;
 
     private static int numTurns;
+    private Player currentPlayer;
 
     public Server(Options options, View view, boolean testBool) throws Exception {
         this.view = view;
@@ -44,87 +45,85 @@ public class Server {
             player.setHand(deck.generateHand(options));
         }
 
-        int currentPlayer = getStartingPlayer();
+        currentPlayer = getStartingPlayer();
         view.writePlayersID(alivePlayers);
 
         boolean gameOver = false;
         if (!testBool) {
-            startGameLoop(gameOver, currentPlayer);
+            startGameLoop(gameOver);
         }
     }
 
     /**
      * Starts the game by running the game loop
      * 
-     * @param finished      boolean that checks if the game is still running or not
-     * @param currentPlayer playerId of the current player
+     * @param finished boolean that checks if the game is still running or not
      * @throws Exception
      */
-    private void startGameLoop(boolean finished, int currentPlayer) throws Exception {
+    private void startGameLoop(boolean finished) throws Exception {
         view.printServer("Started game loop");
         while (!finished) {
             numTurns++;
 
             view.writeNewRoundsToPlayers(alivePlayers, currentPlayer, numTurns);
 
-            String playerInput = view.readMessage(alivePlayers.get(currentPlayer));
+            String playerInput = view.readMessage(currentPlayer);
             String[] input = playerInput.split(" ", -1);
             view.printServer("Player input: " + playerInput);
-            Boolean viableOption = viableOption(alivePlayers.get(currentPlayer), input);
+            Boolean viableOption = viableOption(input);
             view.printServer("Viable option = " + viableOption);
 
-            currentPlayer = getNextPlayer(currentPlayer);
+            currentPlayer = getNextPlayer();
 
             numTurns--;
         }
     }
 
-    public boolean viableOption(Player player, String[] input) {
-        int currentPlayer = player.getPLAYER_ID();
+    public boolean viableOption(String[] input) {
         Boolean viableOption = false;
 
         // Input Pass
         if (input.length == 1 && input[0].equals("Pass")) {
             viableOption = true;
 
-            pass(player);
+            pass();
 
         } else if (input.length == 1) // Input Card
         {
             String cardName = input[0];
-            Boolean containsCard = player.getHand().contains(cardName);
+            Boolean containsCard = currentPlayer.getHand().contains(cardName);
             if (!containsCard) {
                 return false;
             }
-            Boolean isPlayable = player.getHand().getCard(cardName).getIsPlayable();
-            Boolean hasTarget = player.getHand().getCard(cardName).getHasTarget();
+            Boolean isPlayable = currentPlayer.getHand().getCard(cardName).getIsPlayable();
+            Boolean hasTarget = currentPlayer.getHand().getCard(cardName).getHasTarget();
             if (!isPlayable || hasTarget) {
                 return false;
             }
 
             viableOption = true;
-            player.getHand().getCard(cardName).onPlay(this);
+            currentPlayer.getHand().getCard(cardName).onPlay(this);
 
         } else if (input.length == 2) // Input <Card> <Target>
         {
             String cardName = input[0];
-            Boolean containsCard = player.getHand().contains(cardName);
+            Boolean containsCard = currentPlayer.getHand().contains(cardName);
             if (!containsCard) {
                 return false;
             }
-            Boolean isPlayable = player.getHand().getCard(cardName).getIsPlayable();
-            Boolean hasTarget = player.getHand().getCard(cardName).getHasTarget();
+            Boolean isPlayable = currentPlayer.getHand().getCard(cardName).getIsPlayable();
+            Boolean hasTarget = currentPlayer.getHand().getCard(cardName).getHasTarget();
             if (!isPlayable || !hasTarget) {
                 return false;
             }
             int targetID = Integer.parseInt(input[2]);
-            Boolean viableTarget = viableTarget(targetID, currentPlayer);
+            Boolean viableTarget = viableTarget(targetID);
             if (!viableTarget) {
                 return false;
             }
 
             viableOption = true;
-            player.getHand().getCard(cardName).onPlay(this, targetID);
+            currentPlayer.getHand().getCard(cardName).onPlay(this, targetID);
 
         } else if (input.length == 3) // Input <NumCards> <Card> <Target>
         {
@@ -138,18 +137,18 @@ public class Server {
                 return false;
             }
             String cardName = input[1];
-            Boolean containsCard = player.getHand().contains(cardName, numCards);
+            Boolean containsCard = currentPlayer.getHand().contains(cardName, numCards);
             if (!containsCard) {
                 return false;
             }
             int targetID = Integer.parseInt(input[2]);
-            Boolean viableTarget = viableTarget(targetID, currentPlayer);
+            Boolean viableTarget = viableTarget(targetID);
             if (!viableTarget) {
                 return false;
             }
 
             viableOption = true;
-            play2Cards(player, cardName, targetID);
+            play2Cards(cardName, targetID);
 
         } else if (input.length == 4) // Input <NumCards> <Card> <Target> <TargetCards>
         {
@@ -163,12 +162,12 @@ public class Server {
                 return false;
             }
             String cardName = input[1];
-            Boolean containsCard = player.getHand().contains(cardName, numCards);
+            Boolean containsCard = currentPlayer.getHand().contains(cardName, numCards);
             if (!containsCard) {
                 return false;
             }
             int targetID = Integer.parseInt(input[2]);
-            Boolean viableTarget = viableTarget(targetID, currentPlayer);
+            Boolean viableTarget = viableTarget(targetID);
             if (!viableTarget) {
                 return false;
             }
@@ -179,33 +178,33 @@ public class Server {
             }
 
             viableOption = true;
-            play3Cards(player, cardName, targetID, targetCard);
+            play3Cards(cardName, targetID, targetCard);
         }
         return viableOption;
     }
 
-    private boolean viableTarget(int targetID, int currentPlayer) {
-        if (targetID >= 0 && targetID < alivePlayers.size() && targetID != currentPlayer) {
+    private boolean viableTarget(int targetID) {
+        if (targetID >= 0 && targetID < alivePlayers.size() && targetID != currentPlayer.getPLAYER_ID()) {
             return true;
         } else
             return false;
     }
 
-    public void pass(Player player) {
+    public void pass() {
         Card card = deck.drawCard();
-        view.writeDrawCard(player, card);
-        card.onDraw(this, player);
+        view.writeDrawCard(currentPlayer, card);
+        card.onDraw(this, currentPlayer);
     }
 
-    public void explodePlayer(Player player) {
-
-    }
-
-    public void play2Cards(Player player, String cardName, int targetID) {
+    public void explodePlayer() {
 
     }
 
-    public void play3Cards(Player player, String cardName, int targetID, String targetCard) {
+    public void play2Cards(String cardName, int targetID) {
+
+    }
+
+    public void play3Cards(String cardName, int targetID, String targetCard) {
 
     }
 
@@ -220,17 +219,31 @@ public class Server {
         }
     }
 
-    public int getStartingPlayer() {
-        return ThreadLocalRandom.current().nextInt(alivePlayers.size());
+    public Player getStartingPlayer() {
+        int id = ThreadLocalRandom.current().nextInt(alivePlayers.size());
+        return alivePlayers.get(id);
     }
 
-    private int getNextPlayer(int currentPlayer) {
-        return (currentPlayer + 1) % alivePlayers.size();
+    private Player getNextPlayer() {
+        Player player;
+        int id = alivePlayers.indexOf(currentPlayer);
+        id = (id + 1) % alivePlayers.size();
+        return alivePlayers.get(id);
     }
 
-    public void expodePlayer(Player player) {
-        alivePlayers.remove(player);
-
+    public void expodePlayer() {
+        alivePlayers.remove(currentPlayer);
+        view.explodePlayer(allPlayers, currentPlayer);
     }
 
+    public void defuseExplodingKitten() {
+        view.youDefusedExplodingKitten(currentPlayer, deck.getCardStackLength());
+        String input = view.readMessage(currentPlayer);
+        try {
+
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        view.defuseExplodingKitten(allPlayers, currentPlayer);
+    }
 }
