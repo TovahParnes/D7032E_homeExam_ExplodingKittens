@@ -126,4 +126,11 @@ public class View {
         sendMessage(player, "Invalid input, please try again");
     }
 
+    public void writeDrawCard(Player player, Card card) {
+        String messagePlayer = "You drew: " + card.getName();
+        String messageServer = "Player " + player.getPLAYER_ID() + " drew: " + card.getName();
+        sendMessage(player, messagePlayer);
+        printServer(messageServer);
+    }
+
 }

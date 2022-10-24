@@ -20,7 +20,7 @@ public class CardStack {
         this.cardStack.remove(card);
     }
 
-    public Card getCard() {
+    public Card drawCard() {
         return this.cardStack.remove(0);
     }
 
@@ -100,7 +100,7 @@ public class CardStack {
         return null;
     }
 
-    public CardStack getUniqeCards() {
+    public CardStack getUniqueCards() {
         CardStack uniqueCards = new CardStack();
         for (Card card : getCardStackAsArray()) {
             if (!uniqueCards.contains(card)) {

@@ -13,7 +13,8 @@ import HomeExam.scr.Main.Cards.Card;
 
 public class Server {
 
-    private ArrayList<Player> players = new ArrayList<Player>();
+    private ArrayList<Player> allPlayers = new ArrayList<Player>();
+    private ArrayList<Player> alivePlayers;
     private View view;
     private Options options;
     private Random random;
@@ -32,18 +33,19 @@ public class Server {
         }
 
         deck = new Deck(options);
-        cardsInGame = deck.getUniqeCards();
+        cardsInGame = deck.getUniqueCards();
         System.out.println("TEMP: unique cards:" + cardsInGame.getCardStackString());
         cardsInGame = new CardStack();
         deck.shuffle();
         addOnlinePlayers(options.getNUM_ONLINE_PLAYERS(), view);
+        alivePlayers = new ArrayList<Player>(allPlayers);
 
-        for (Player player : players) {
+        for (Player player : alivePlayers) {
             player.setHand(deck.generateHand(options));
         }
 
-        int currentPlayer = setCurrentPlayer();
-        view.writePlayersID(players);
+        int currentPlayer = getStartingPlayer();
+        view.writePlayersID(alivePlayers);
 
         boolean gameOver = false;
         if (!testBool) {
@@ -63,17 +65,13 @@ public class Server {
         while (!finished) {
             numTurns++;
 
-            view.writeNewRoundsToPlayers(players, currentPlayer, numTurns);
+            view.writeNewRoundsToPlayers(alivePlayers, currentPlayer, numTurns);
 
-            String playerInput = view.readMessage(players.get(currentPlayer));
+            String playerInput = view.readMessage(alivePlayers.get(currentPlayer));
             String[] input = playerInput.split(" ", -1);
             view.printServer("Player input: " + playerInput);
-            view.printServer("Viable option = " + viableOption(players.get(currentPlayer), input));
-            while (!viableOption(players.get(currentPlayer), input)) {
-                view.failedInput(players.get(currentPlayer));
-                // playerInput = view.readMessage(players.get(currentPlayer));
-                view.printServer("Player input: " + playerInput);
-            }
+            Boolean viableOption = viableOption(alivePlayers.get(currentPlayer), input);
+            view.printServer("Viable option = " + viableOption);
 
             currentPlayer = getNextPlayer(currentPlayer);
 
@@ -88,6 +86,8 @@ public class Server {
         // Input Pass
         if (input.length == 1 && input[0].equals("Pass")) {
             viableOption = true;
+
+            pass(player);
 
         } else if (input.length == 1) // Input Card
         {
@@ -185,10 +185,20 @@ public class Server {
     }
 
     private boolean viableTarget(int targetID, int currentPlayer) {
-        if (targetID >= 0 && targetID < players.size() && targetID != currentPlayer) {
+        if (targetID >= 0 && targetID < alivePlayers.size() && targetID != currentPlayer) {
             return true;
         } else
             return false;
+    }
+
+    public void pass(Player player) {
+        Card card = deck.drawCard();
+        view.writeDrawCard(player, card);
+        card.onDraw(this, player);
+    }
+
+    public void explodePlayer(Player player) {
+
     }
 
     public void play2Cards(Player player, String cardName, int targetID) {
@@ -205,17 +215,22 @@ public class Server {
             Socket connectionSocket = aSocket.accept();
             ObjectInputStream inFromClient = new ObjectInputStream(connectionSocket.getInputStream());
             ObjectOutputStream outToClient = new ObjectOutputStream(connectionSocket.getOutputStream());
-            players.add(new OnlinePlayer(onlineClient, connectionSocket, inFromClient, outToClient, view));
+            allPlayers.add(new OnlinePlayer(onlineClient, connectionSocket, inFromClient, outToClient, view));
             view.printConnection(onlineClient);
         }
     }
 
-    public int setCurrentPlayer() {
-        return ThreadLocalRandom.current().nextInt(players.size());
+    public int getStartingPlayer() {
+        return ThreadLocalRandom.current().nextInt(alivePlayers.size());
     }
 
     private int getNextPlayer(int currentPlayer) {
-        return (currentPlayer + 1) % players.size();
+        return (currentPlayer + 1) % alivePlayers.size();
+    }
+
+    public void expodePlayer(Player player) {
+        alivePlayers.remove(player);
+
     }
 
 }

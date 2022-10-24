@@ -1,7 +1,6 @@
 package HomeExam.scr.Main.Cards;
 
 import HomeExam.scr.Main.Server;
-import HomeExam.scr.Main.Players.Player;
 
 public class FavorCard extends Card {
 

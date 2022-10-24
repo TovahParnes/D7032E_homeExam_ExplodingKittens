@@ -11,7 +11,7 @@ abstract public class Card {
     protected Boolean isDealable = true;
     protected Boolean hasTarget = false;
 
-    public void onDraw(Player player) {
+    public void onDraw(Server server, Player player) {
     }
 
     public void onPlay(Server server) {

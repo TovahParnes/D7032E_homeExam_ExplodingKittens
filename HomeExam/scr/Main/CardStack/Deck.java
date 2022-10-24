@@ -85,7 +85,7 @@ public class Deck extends CardStack {
             hand.addCard(new DefuseCard());
         }
         for (int i = 0; i < options.getNUM_CARDS_IN_HAND(); i++) {
-            Card card = getCard();
+            Card card = drawCard();
             if (card.getIsDealable()) {
                 hand.addCard(card);
             } else {

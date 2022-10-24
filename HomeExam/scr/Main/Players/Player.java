@@ -44,7 +44,8 @@ public class Player {
         return PLAYER_ID;
     }
 
-    public class Bot extends Player {
+    public void explode() {
+        exploded = true;
     }
 
 }
