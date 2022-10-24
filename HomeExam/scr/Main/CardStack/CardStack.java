@@ -40,7 +40,7 @@ public class CardStack {
         return cardStack.size();
     }
 
-    public String getCardsString() {
+    public String getCardStackString() {
         String cardsString = "[";
         for (Card card : cardStack) {
             cardsString += card.getName() + ", ";
@@ -98,6 +98,16 @@ public class CardStack {
             }
         }
         return null;
+    }
+
+    public CardStack getUniqeCards() {
+        CardStack uniqueCards = new CardStack();
+        for (Card card : getCardStackAsArray()) {
+            if (!uniqueCards.contains(card)) {
+                uniqueCards.addCard(card);
+            }
+        }
+        return uniqueCards;
     }
 
 }

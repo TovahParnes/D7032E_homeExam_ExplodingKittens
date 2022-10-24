@@ -1,5 +1,8 @@
 package HomeExam.scr.Main.Cards;
 
+import HomeExam.scr.Main.Server;
+import HomeExam.scr.Main.Players.Player;
+
 abstract public class Card {
 
     protected String name;
@@ -8,10 +11,15 @@ abstract public class Card {
     protected Boolean isDealable = true;
     protected Boolean hasTarget = false;
 
-    public void onDraw() {
+    public void onDraw(Player player) {
     }
 
-    public void onPlay() {
+    public void onPlay(Server server) {
+        System.out.println("TEMP: Card " + name + " played");
+    }
+
+    public void onPlay(Server server, int targetID) {
+        System.out.println("TEMP: Card " + name + " played, targetID: " + targetID);
     }
 
     public String getName() {

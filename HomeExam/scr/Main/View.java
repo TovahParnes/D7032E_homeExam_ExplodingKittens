@@ -61,7 +61,7 @@ public class View {
 
     public String stringHand(Player player) {
         String message = "Your hand: \n";
-        message += player.getHand().getCardsString() + "\n";
+        message += player.getHand().getCardStackString() + "\n";
         return message;
     }
 

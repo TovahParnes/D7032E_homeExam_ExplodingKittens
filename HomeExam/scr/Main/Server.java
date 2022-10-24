@@ -6,8 +6,10 @@ import java.util.*;
 import java.util.concurrent.*;
 
 import HomeExam.scr.Main.CardStack.Deck;
+import HomeExam.scr.Main.CardStack.CardStack;
 import HomeExam.scr.Main.Players.OnlinePlayer;
 import HomeExam.scr.Main.Players.Player;
+import HomeExam.scr.Main.Cards.Card;
 
 public class Server {
 
@@ -16,6 +18,7 @@ public class Server {
     private Options options;
     private Random random;
     private Deck deck;
+    private CardStack cardsInGame;
 
     private static int numTurns;
 
@@ -29,6 +32,9 @@ public class Server {
         }
 
         deck = new Deck(options);
+        cardsInGame = deck.getUniqeCards();
+        System.out.println("TEMP: unique cards:" + cardsInGame.getCardStackString());
+        cardsInGame = new CardStack();
         deck.shuffle();
         addOnlinePlayers(options.getNUM_ONLINE_PLAYERS(), view);
 
@@ -78,52 +84,102 @@ public class Server {
     public boolean viableOption(Player player, String[] input) {
         int currentPlayer = player.getPLAYER_ID();
         Boolean viableOption = false;
+
+        // Input Pass
         if (input.length == 1 && input[0].equals("Pass")) {
             viableOption = true;
-        } else if (input.length == 1) {
+
+        } else if (input.length == 1) // Input Card
+        {
             String cardName = input[0];
             Boolean containsCard = player.getHand().contains(cardName);
+            if (!containsCard) {
+                return false;
+            }
             Boolean isPlayable = player.getHand().getCard(cardName).getIsPlayable();
             Boolean hasTarget = player.getHand().getCard(cardName).getHasTarget();
-            if (containsCard && isPlayable && !hasTarget) {
-                viableOption = true;
+            if (!isPlayable || hasTarget) {
+                return false;
             }
-        } else if (input.length == 2) {
+
+            viableOption = true;
+            player.getHand().getCard(cardName).onPlay(this);
+
+        } else if (input.length == 2) // Input <Card> <Target>
+        {
             String cardName = input[0];
             Boolean containsCard = player.getHand().contains(cardName);
+            if (!containsCard) {
+                return false;
+            }
             Boolean isPlayable = player.getHand().getCard(cardName).getIsPlayable();
             Boolean hasTarget = player.getHand().getCard(cardName).getHasTarget();
+            if (!isPlayable || !hasTarget) {
+                return false;
+            }
             int targetID = Integer.parseInt(input[2]);
             Boolean viableTarget = viableTarget(targetID, currentPlayer);
-
-            if (containsCard && isPlayable && hasTarget && viableTarget) {
-                viableOption = true;
+            if (!viableTarget) {
+                return false;
             }
 
-            // card with no arguemnts
-        } else if (input.length == 3) {
+            viableOption = true;
+            player.getHand().getCard(cardName).onPlay(this, targetID);
+
+        } else if (input.length == 3) // Input <NumCards> <Card> <Target>
+        {
+            try {
+                int numCards = Integer.parseInt(input[0]);
+            } catch (Exception e) {
+                return false;
+            }
             int numCards = Integer.parseInt(input[0]);
+            if (numCards != 2) {
+                return false;
+            }
             String cardName = input[1];
             Boolean containsCard = player.getHand().contains(cardName, numCards);
+            if (!containsCard) {
+                return false;
+            }
             int targetID = Integer.parseInt(input[2]);
             Boolean viableTarget = viableTarget(targetID, currentPlayer);
-
-            if (containsCard && viableTarget) {
-                viableOption = true;
+            if (!viableTarget) {
+                return false;
             }
 
-        } else if (input.length == 4) {
+            viableOption = true;
+            play2Cards(player, cardName, targetID);
+
+        } else if (input.length == 4) // Input <NumCards> <Card> <Target> <TargetCards>
+        {
+            try {
+                int numCards = Integer.parseInt(input[0]);
+            } catch (Exception e) {
+                return false;
+            }
             int numCards = Integer.parseInt(input[0]);
+            if (numCards != 3) {
+                return false;
+            }
             String cardName = input[1];
             Boolean containsCard = player.getHand().contains(cardName, numCards);
+            if (!containsCard) {
+                return false;
+            }
             int targetID = Integer.parseInt(input[2]);
             Boolean viableTarget = viableTarget(targetID, currentPlayer);
+            if (!viableTarget) {
+                return false;
+            }
             String targetCard = input[3];
-            Boolean viableTargetCard = players.get(targetID).getHand().contains(targetCard);
-
-            if (containsCard && viableTarget && viableTargetCard) {
-                viableOption = true;
+            Boolean viableTargetCard = cardsInGame.contains(targetCard);
+            if (!viableTargetCard) {
+                return false;
             }
+
+            viableOption = true;
+            play3Cards(player, cardName, targetID, targetCard);
         }
         return viableOption;
     }
@@ -133,6 +189,14 @@ public class Server {
             return true;
         } else
             return false;
+    }
+
+    public void play2Cards(Player player, String cardName, int targetID) {
+
+    }
+
+    public void play3Cards(Player player, String cardName, int targetID, String targetCard) {
+
     }
 
     public void addOnlinePlayers(int numPlayers, View view) throws Exception {

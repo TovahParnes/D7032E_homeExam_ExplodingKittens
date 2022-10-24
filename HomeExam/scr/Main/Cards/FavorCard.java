@@ -1,5 +1,8 @@
 package HomeExam.scr.Main.Cards;
 
+import HomeExam.scr.Main.Server;
+import HomeExam.scr.Main.Players.Player;
+
 public class FavorCard extends Card {
 
     public FavorCard() {
@@ -7,6 +10,10 @@ public class FavorCard extends Card {
         this.description = "This card can be played on another player to force them to give you a card of their choice.";
         this.isPlayable = true;
         this.hasTarget = true;
+    }
+
+    public void onPlay(Server server, int targetID) {
+
     }
 
 }
