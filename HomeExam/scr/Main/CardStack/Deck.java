@@ -95,4 +95,16 @@ public class Deck extends CardStack {
         shuffle();
         return hand;
     }
+
+    public String getTopCards(int numCards) {
+        String cardsString = "[";
+        for (int i = 0; i < numCards; i++) {
+            cardsString += cardStack.get(i).getName();
+            if (i != numCards - 1) {
+                cardsString += ", ";
+            }
+        }
+        cardsString += "]";
+        return cardsString;
+    }
 }

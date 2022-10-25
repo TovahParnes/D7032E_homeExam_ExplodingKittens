@@ -241,6 +241,10 @@ public class Server {
         return numTurns;
     }
 
+    public Deck getDeck() {
+        return deck;
+    }
+
     public void play2Cards(String cardName, int targetID) {
         currentPlayer.getHand().removeCard(cardsInGame.getCard(cardName), 2);
         Player target = allPlayers.get(targetID);
@@ -370,10 +374,6 @@ public class Server {
         }
     }
 
-    public Player getCurrentPLayer() {
-        return currentPlayer;
-    }
-
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
@@ -386,4 +386,7 @@ public class Server {
         view.writeGiveCard(allPlayers, currentPlayer.getPLAYER_ID(), targetPlayer.getPLAYER_ID(), card.getName());
     }
 
+    public void sendToCurrentPlayer(String message) {
+        view.sendMessage(currentPlayer, message);
+    }
 }
