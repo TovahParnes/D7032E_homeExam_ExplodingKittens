@@ -12,12 +12,27 @@ public class CardStack {
         this.cardStack = new ArrayList<Card>();
     }
 
+    public void sort() {
+        this.cardStack.sort(Comparator.comparing(Card::getName));
+    }
+
     public void addCard(Card card) {
         this.cardStack.add(card);
     }
 
-    public void removeCard(Card card) {
-        this.cardStack.remove(card);
+    public void removeCard(Card removeCard) {
+        for (Card card : cardStack) {
+            if (card.equals(removeCard)) {
+                cardStack.remove(card);
+                break;
+            }
+        }
+    }
+
+    public void removeCard(Card card, int amount) {
+        for (int i = 0; i < amount; i++) {
+            removeCard(card);
+        }
     }
 
     public Card drawCard() {

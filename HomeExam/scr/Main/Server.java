@@ -28,12 +28,10 @@ public class Server {
         this.view = view;
         this.options = options;
 
-        if (options.getNUM_PLAYERS() < options.getMIN_NUM_PLAYERS()
-                || options.getNUM_PLAYERS() > options.getMAX_NUM_PLAYERS()) {
-            throw new Exception("Not a valid amount of players"); // XX: Add so that handles error and handles total num
-        }
+        validAmountOfPlayers(options.getNUM_PLAYERS(), options.getMIN_NUM_PLAYERS(), options.getMAX_NUM_PLAYERS());
 
         deck = new Deck(options);
+
         cardsInGame = deck.getUniqueCards();
         deck.shuffle();
         addOnlinePlayers(options.getNUM_ONLINE_PLAYERS(), view);
@@ -222,6 +220,12 @@ public class Server {
     }
 
     public void play2Cards(String cardName, int targetID) {
+        currentPlayer.getHand().removeCard(cardsInGame.getCard(cardName), 2);
+        Player target = allPlayers.get(targetID);
+        Card card = target.getHand().drawRandomCard();
+        currentPlayer.getHand().addCard(card);
+        view.writeStealCard(currentPlayer, card, targetID);
+
         System.out.println("TEMP: Play 2 cards");
 
     }
@@ -300,5 +304,11 @@ public class Server {
             return false;
         }
         return true;
+    }
+
+    public void validAmountOfPlayers(int numPlayers, int minPlayers, int maxPlayers) throws Exception {
+        if (numPlayers < minPlayers || numPlayers > maxPlayers) {
+            throw new Exception("Invalid amount of players");
+        }
     }
 }

@@ -178,4 +178,10 @@ public class View {
         }
         printServer(message);
     }
+
+    public void writeStealCard(Player player, Card card, int targetID) {
+        String message = "You stole: " + card.getName();
+        sendMessage(player, message);
+        printServer("Player " + player.getPLAYER_ID() + " stole: " + card.getName() + " from player " + targetID);
+    }
 }
