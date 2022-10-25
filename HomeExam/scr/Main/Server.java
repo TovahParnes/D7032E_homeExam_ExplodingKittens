@@ -378,6 +378,10 @@ public class Server {
         return currentPlayer;
     }
 
+    public void shuffleDeck() {
+        deck.shuffle();
+    }
+
     public void giveCard(Player targetPlayer, Card card) {
         currentPlayer.getHand().addCard(card);
         view.writeGiveCard(allPlayers, currentPlayer.getPLAYER_ID(), targetPlayer.getPLAYER_ID(), card.getName());

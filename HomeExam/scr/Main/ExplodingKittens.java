@@ -13,15 +13,16 @@ public class ExplodingKittens {
     private ExplodingKittens(String argv[]) throws Exception {
         View view = new View();
 
-        if (argv.length == 2) {
+        if (argv.length == 3) {
             int numOnlinePlayers = Integer.parseInt(argv[0]);
             int numBots = Integer.parseInt(argv[1]);
-            Options options = new Options("OriginalGameVariables", numOnlinePlayers, numBots);
+            String version = argv[2];
+            Options options = new Options(version + "GameVariables", numOnlinePlayers, numBots);
             Server server = new Server(options, view, false);
         } else if (argv.length == 1) {
             OnlineClient OnlineClient = new OnlineClient(argv[0], view);
         } else {
-            System.out.println("Server syntax: java ExplodingKittens numPlayers numBots");
+            System.out.println("Server syntax: java ExplodingKittens numPlayers numBots Version");
             System.out.println("Client syntax: IP");
         }
     }
