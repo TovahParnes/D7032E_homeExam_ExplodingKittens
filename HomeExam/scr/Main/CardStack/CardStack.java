@@ -93,7 +93,7 @@ public class CardStack {
 
     public Card getCard(String name) {
         for (Card card : cardStack) {
-            if (card.getName() == name) {
+            if (card.getName().equals(name)) {
                 return card;
             }
         }

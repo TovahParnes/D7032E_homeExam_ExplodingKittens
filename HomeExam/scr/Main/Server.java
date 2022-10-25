@@ -35,7 +35,6 @@ public class Server {
 
         deck = new Deck(options);
         cardsInGame = deck.getUniqueCards();
-        System.out.println("TEMP: unique cards:" + cardsInGame.getCardStackString());
         cardsInGame = new CardStack();
         deck.shuffle();
         addOnlinePlayers(options.getNUM_ONLINE_PLAYERS(), view);
@@ -46,7 +45,7 @@ public class Server {
         }
 
         currentPlayer = getStartingPlayer();
-        view.writePlayersID(alivePlayers);
+        view.writePlayersID(allPlayers);
 
         boolean gameOver = false;
         if (!testBool) {
@@ -62,20 +61,18 @@ public class Server {
      */
     private void startGameLoop(boolean finished) throws Exception {
         view.printServer("Started game loop");
+        numTurns++;
         while (!finished) {
-            numTurns++;
-
             view.writeNewRoundsToPlayers(alivePlayers, currentPlayer, numTurns);
 
             String playerInput = view.readMessage(currentPlayer);
             String[] input = playerInput.split(" ", -1);
             view.printServer("Player input: " + playerInput);
             Boolean viableOption = viableOption(input);
+            if (!viableOption) {
+                view.sendMessage(currentPlayer, "Invalid input, try again");
+            }
             view.printServer("Viable option = " + viableOption);
-
-            currentPlayer = getNextPlayer();
-
-            numTurns--;
         }
     }
 
@@ -95,7 +92,13 @@ public class Server {
             if (!containsCard) {
                 return false;
             }
-            Boolean isPlayable = currentPlayer.getHand().getCard(cardName).getIsPlayable();
+
+            Boolean isPlayable;
+            CardStack a = currentPlayer.getHand();
+            System.out.println(a.getCardStackString());
+            Card b = a.getCard(cardName);
+            System.out.println(b.getName());
+            isPlayable = b.getIsPlayable();
             Boolean hasTarget = currentPlayer.getHand().getCard(cardName).getHasTarget();
             if (!isPlayable || hasTarget) {
                 return false;
@@ -194,6 +197,16 @@ public class Server {
         Card card = deck.drawCard();
         view.writeDrawCard(currentPlayer, card);
         card.onDraw(this, currentPlayer);
+        currentPlayer.getHand().addCard(card);
+        endTurn();
+    }
+
+    public void endTurn() {
+        numTurns--;
+        if (numTurns >= 0) {
+            currentPlayer = getNextPlayer();
+            numTurns++;
+        }
     }
 
     public void explodePlayer() {
@@ -201,11 +214,12 @@ public class Server {
     }
 
     public void play2Cards(String cardName, int targetID) {
+        System.out.println("TEMP: Play 2 cards");
 
     }
 
     public void play3Cards(String cardName, int targetID, String targetCard) {
-
+        System.out.println("TEMP: Play 3 cards");
     }
 
     public void addOnlinePlayers(int numPlayers, View view) throws Exception {
