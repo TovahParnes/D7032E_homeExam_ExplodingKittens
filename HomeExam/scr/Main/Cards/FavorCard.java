@@ -1,6 +1,7 @@
 package HomeExam.scr.Main.Cards;
 
 import HomeExam.scr.Main.Server;
+import HomeExam.scr.Main.Players.Player;
 
 public class FavorCard extends Card {
 
@@ -11,8 +12,11 @@ public class FavorCard extends Card {
         this.hasTarget = true;
     }
 
-    public void onPlay(Server server, int targetID) {
-
+    public void onPlay(Server server, Player targetPlayer) {
+        String cardName = server.readInputCardName(targetPlayer);
+        Card card = targetPlayer.getHand().drawCard(cardName);
+        // Server.getCurrentPlayer().getHand().addCard(card);
+        // Server.giveCard(targetPlayer, card);
     }
 
 }

@@ -208,4 +208,36 @@ public class View {
         printServer(message);
     }
 
+    public void writeGiveCardToPlayer(Player player, int currentPlayer) {
+        String message = "Your hand: ";
+        message += stringHand(player);
+        message += "Give a card to Player " + currentPlayer;
+        sendMessage(player, message);
+    }
+
+    public void writeGiveCard(ArrayList<Player> allPlayers, int currentPlayer, int targetPlayer, String cardName) {
+        for (Player player : allPlayers) {
+            if (player.getPLAYER_ID() == targetPlayer) {
+                sendMessage(player, "You gave " + cardName + " to Player " + currentPlayer);
+            } else if (player.getPLAYER_ID() == targetPlayer) {
+                sendMessage(player, "You drew " + cardName + " from player " + currentPlayer);
+            } else {
+                sendMessage(player, "Player " + targetPlayer + " gave a card to Player " + currentPlayer);
+            }
+        }
+        printServer("Player " + targetPlayer + " gave " + cardName + " to Player " + currentPlayer);
+    }
+
+    public void writePlayCard(ArrayList<Player> allPlayers, int currentPlayer, String cardName) {
+        String message = "Player " + currentPlayer + " played: " + cardName;
+        for (Player player : allPlayers) {
+            if (player.getPLAYER_ID() == currentPlayer) {
+                sendMessage(player, "You played: " + cardName);
+            } else {
+                sendMessage(player, message);
+            }
+        }
+        printServer(message);
+    }
+
 }

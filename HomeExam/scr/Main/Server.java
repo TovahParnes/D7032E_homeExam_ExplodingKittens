@@ -103,6 +103,7 @@ public class Server {
             }
 
             viableOption = true;
+            view.writePlayCard(allPlayers, currentPlayer.getPLAYER_ID(), cardName);
             currentPlayer.getHand().getCard(cardName).onPlay(this);
 
         } else if (input.length == 2) // Input <Card> <Target>
@@ -117,13 +118,19 @@ public class Server {
             if (!isPlayable || !hasTarget) {
                 return false;
             }
-            int targetID = Integer.parseInt(input[2]);
+            try {
+                int targetID = Integer.parseInt(input[1]);
+            } catch (Exception e) {
+                return false;
+            }
+            int targetID = Integer.parseInt(input[1]);
             Boolean viableTarget = viableTarget(targetID);
             if (!viableTarget) {
                 return false;
             }
 
             viableOption = true;
+            view.writePlayCard(allPlayers, currentPlayer.getPLAYER_ID(), cardName);
             currentPlayer.getHand().getCard(cardName).onPlay(this, targetID);
 
         } else if (input.length == 3) // Input <NumCards> <Card> <Target>
@@ -140,6 +147,11 @@ public class Server {
             String cardName = input[1];
             Boolean containsCard = currentPlayer.getHand().contains(cardName, numCards);
             if (!containsCard) {
+                return false;
+            }
+            try {
+                int targetID = Integer.parseInt(input[2]);
+            } catch (Exception e) {
                 return false;
             }
             int targetID = Integer.parseInt(input[2]);
@@ -165,6 +177,11 @@ public class Server {
             String cardName = input[1];
             Boolean containsCard = currentPlayer.getHand().contains(cardName, numCards);
             if (!containsCard) {
+                return false;
+            }
+            try {
+                int targetID = Integer.parseInt(input[2]);
+            } catch (Exception e) {
                 return false;
             }
             int targetID = Integer.parseInt(input[2]);
@@ -323,4 +340,47 @@ public class Server {
             throw new Exception("Invalid amount of players");
         }
     }
+
+    public String readInputCardName(Player player) {
+        view.writeGiveCardToPlayer(player, currentPlayer.getPLAYER_ID());
+        String playerInput = view.readMessage(player);
+        String[] input = playerInput.split(" ", -1);
+        Boolean validCardName = validateCardName(input, player);
+
+        if (validCardName) {
+            return input[0];
+        } else {
+            view.invalidInput(player);
+            return readInputCardName(player);
+        }
+    }
+
+    public Boolean validateCardName(String[] input, Player player) {
+        if (input.length != 1) {
+            return false;
+        }
+        if (player.getHand().contains(input[0])) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public Player getCurrentPLayer() {
+        return currentPlayer;
+    }
+
+    public View getView() {
+        return view;
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void giveCard(Player targetPlayer, Card card) {
+        currentPlayer.getHand().addCard(card);
+        view.writeGiveCard(allPlayers, currentPlayer.getPLAYER_ID(), targetPlayer.getPLAYER_ID(), card.getName());
+    }
+
 }
