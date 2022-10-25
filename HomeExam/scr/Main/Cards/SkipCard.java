@@ -1,5 +1,7 @@
 package HomeExam.scr.Main.Cards;
 
+import HomeExam.scr.Main.Server;
+
 public class SkipCard extends Card {
 
     public SkipCard() {
@@ -8,8 +10,8 @@ public class SkipCard extends Card {
         this.isPlayable = true;
     }
 
-    public void onPlay(int PLAYER_ID){
-        //endOneTurn(PLAYER_ID);
+    public void onPlay(Server server) {
+        server.endTurn();
     }
 
 }

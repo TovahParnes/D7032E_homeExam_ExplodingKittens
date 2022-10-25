@@ -162,7 +162,7 @@ public class View {
             if (player.getPLAYER_ID() == currentPlayer.getPLAYER_ID()) {
                 defusedExplodingKittenPlacementSuccessful(player, cardPlacement);
             } else {
-                sendMessage(player, "Player " + currentPlayer.getPLAYER_ID() + " defused an exploding kitten");
+                sendMessage(player, "Player " + currentPlayer.getPLAYER_ID() + " Defused an ExplodingKitten");
             }
         }
         printServer("Player " + currentPlayer.getPLAYER_ID() + " successfully placed the exploding kitten at position "
@@ -201,7 +201,7 @@ public class View {
     }
 
     public void writePlayerPassed(ArrayList<Player> players, Player currentPlayer) {
-        String message = "Player " + currentPlayer.getPLAYER_ID() + " Passed.";
+        String message = "Player " + currentPlayer.getPLAYER_ID() + " Passed";
         for (Player player : players) {
             if (player.getPLAYER_ID() != currentPlayer.getPLAYER_ID()) {
                 sendMessage(player, message);

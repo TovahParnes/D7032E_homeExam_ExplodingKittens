@@ -90,7 +90,7 @@ public class Server {
                 return false;
             }
 
-            Boolean isPlayable;
+            Boolean isPlayable = currentPlayer.getHand().getCard(cardName).getIsPlayable();
             Boolean hasTarget = currentPlayer.getHand().getCard(cardName).getHasTarget();
             if (!isPlayable || hasTarget) {
                 return false;
@@ -372,10 +372,6 @@ public class Server {
 
     public Player getCurrentPLayer() {
         return currentPlayer;
-    }
-
-    public View getView() {
-        return view;
     }
 
     public Player getCurrentPlayer() {
