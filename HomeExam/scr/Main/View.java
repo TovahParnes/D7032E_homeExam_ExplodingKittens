@@ -65,11 +65,12 @@ public class View {
         return message;
     }
 
-    public void writeNewRoundsToPlayers(ArrayList<Player> players, Player currentPlayer, int turnsLeft) {
+    public void writeNewRoundsToPlayers(ArrayList<Player> players, Player currentPlayer, int turnsLeft,
+            String targets) {
         printCurrentPlayer(currentPlayer);
         for (Player player : players) {
             if (player.getPLAYER_ID() == currentPlayer.getPLAYER_ID()) {
-                writeYourTurn(player, turnsLeft);
+                writeYourTurn(player, turnsLeft, targets);
             } else {
                 writeNotYourTurn(player, currentPlayer);
             }
@@ -81,15 +82,15 @@ public class View {
         sendMessage(player, message);
     }
 
-    private void writeYourTurn(Player player, int turnsLeft) {
+    private void writeYourTurn(Player player, int turnsLeft, String targets) {
         String message = "It is your turn\n\n";
         message += ("You have " + turnsLeft + ((turnsLeft > 1) ? " turns" : " turn") + " to take\n");
         message += stringHand(player);
-        message += stringPlayerOptions(player.getHand());
+        message += stringPlayerOptions(player.getHand(), targets);
         sendMessage(player, message);
     }
 
-    public String stringPlayerOptions(Hand hand) {
+    public String stringPlayerOptions(Hand hand, String targets) {
         ArrayList<String> uniqueCards = new ArrayList<String>();
 
         String yourOptions = "You have the following options:\n";
@@ -100,15 +101,20 @@ public class View {
                 int count = hand.getCardCount(card);
                 if (count >= 1) {
                     if (card.getIsPlayable()) {
-                        yourOptions += ("\t" + card.getName() + ": " + card.getDescription() + "\n");
+                        if (card.getHasTarget()) {
+                            yourOptions += ("\t" + card.getName() + " [target] (available targets: " + targets + ") - "
+                                    + card.getDescription() + "\n");
+                        } else {
+                            yourOptions += ("\t" + card.getName() + " -  " + card.getDescription() + "\n");
+                        }
                     }
                 }
                 if (count >= 2)
-                    yourOptions += "\t2 " + card.getName() + " [target] (available targets: "
-                            + /* otherPlayerIDs + */ ") (Steal random card)\n";
+                    yourOptions += "\t2 " + card.getName() + " [target] (available targets: " + targets
+                            + ") - Steal random card\n";
                 if (count >= 3)
-                    yourOptions += "\t3 " + card.getName() + " [target] [Card Type] (available targets: "
-                            + /* otherPlayerIDs + */ ") (Name and pick a card)\n";
+                    yourOptions += "\t3 " + card.getName() + " [target] [Card Type] (available targets: " + targets
+                            + ") - Name and pick a card\n";
             }
         }
         yourOptions += "\tPass\n";

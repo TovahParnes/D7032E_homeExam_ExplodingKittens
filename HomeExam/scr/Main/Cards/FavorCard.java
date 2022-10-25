@@ -15,8 +15,8 @@ public class FavorCard extends Card {
     public void onPlay(Server server, Player targetPlayer) {
         String cardName = server.readInputCardName(targetPlayer);
         Card card = targetPlayer.getHand().drawCard(cardName);
-        // Server.getCurrentPlayer().getHand().addCard(card);
-        // Server.giveCard(targetPlayer, card);
+        server.getCurrentPlayer().getHand().addCard(card);
+        server.giveCard(targetPlayer, card);
     }
 
 }

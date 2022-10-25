@@ -60,7 +60,7 @@ public class Server {
         view.printServer("Started game loop");
         numTurns++;
         while (!finished) {
-            view.writeNewRoundsToPlayers(alivePlayers, currentPlayer, numTurns);
+            view.writeNewRoundsToPlayers(alivePlayers, currentPlayer, numTurns, getTargets());
 
             String playerInput = view.readMessage(currentPlayer);
 
@@ -199,6 +199,16 @@ public class Server {
             play3Cards(cardName, targetID, targetCard);
         }
         return viableOption;
+    }
+
+    public String getTargets() {
+        String targets = "";
+        for (Player player : alivePlayers) {
+            if (player.getPLAYER_ID() != currentPlayer.getPLAYER_ID()) {
+                targets += player.getPLAYER_ID() + " ";
+            }
+        }
+        return targets;
     }
 
     private boolean viableTarget(int targetID) {
@@ -383,7 +393,6 @@ public class Server {
     }
 
     public void giveCard(Player targetPlayer, Card card) {
-        currentPlayer.getHand().addCard(card);
         view.writeGiveCard(allPlayers, currentPlayer.getPLAYER_ID(), targetPlayer.getPLAYER_ID(), card.getName());
     }
 
