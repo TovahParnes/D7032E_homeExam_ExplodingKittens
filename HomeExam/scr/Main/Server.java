@@ -24,7 +24,7 @@ public class Server {
     private static int numTurns;
     private Player currentPlayer;
 
-    public Server(Options options, View view, boolean testBool) throws Exception {
+    public Server(Options options, View view) throws Exception {
         this.view = view;
         this.options = options;
 
@@ -45,9 +45,8 @@ public class Server {
         view.writePlayersID(allPlayers);
 
         boolean gameOver = false;
-        if (!testBool) {
-            startGameLoop(gameOver);
-        }
+        startGameLoop(gameOver);
+
     }
 
     /**
@@ -92,11 +91,6 @@ public class Server {
             }
 
             Boolean isPlayable;
-            CardStack a = currentPlayer.getHand();
-            System.out.println(a.getCardStackString());
-            Card b = a.getCard(cardName);
-            System.out.println(b.getName());
-            isPlayable = b.getIsPlayable();
             Boolean hasTarget = currentPlayer.getHand().getCard(cardName).getHasTarget();
             if (!isPlayable || hasTarget) {
                 return false;
@@ -131,7 +125,7 @@ public class Server {
 
             viableOption = true;
             view.writePlayCard(allPlayers, currentPlayer.getPLAYER_ID(), cardName);
-            currentPlayer.getHand().getCard(cardName).onPlay(this, targetID);
+            currentPlayer.getHand().getCard(cardName).onPlay(this, allPlayers.get(targetID));
 
         } else if (input.length == 3) // Input <NumCards> <Card> <Target>
         {

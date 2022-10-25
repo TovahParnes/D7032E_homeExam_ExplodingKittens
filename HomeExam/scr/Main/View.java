@@ -39,10 +39,6 @@ public class View {
         printServer("Connected to Player ID: " + (onlineClient));
     }
 
-    public String playerCards(ArrayList<Card> hand) {
-        return "hand test";
-    }
-
     public String drawCard(Card card) {
         return "You drew: " + card.getName();
     }
@@ -215,9 +211,8 @@ public class View {
     }
 
     public void writeGiveCardToPlayer(Player player, int currentPlayer) {
-        String message = "Your hand: ";
-        message += stringHand(player);
-        message += "Give a card to Player " + currentPlayer;
+        String message = stringHand(player);
+        message += "Give a card to Player " + currentPlayer + " by writing the name of the card\n";
         sendMessage(player, message);
     }
 

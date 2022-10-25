@@ -18,8 +18,8 @@ abstract public class Card {
         System.out.println("TEMP: Card " + name + " played");
     }
 
-    public void onPlay(Server server, int targetID) {
-        System.out.println("TEMP: Card " + name + " played, targetID: " + targetID);
+    public void onPlay(Server server, Player target) {
+        System.out.println("TEMP: Card " + name + " played, targetID: " + target.getPLAYER_ID());
     }
 
     public String getName() {
