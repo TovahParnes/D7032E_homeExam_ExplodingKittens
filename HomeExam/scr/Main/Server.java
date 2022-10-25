@@ -225,13 +225,20 @@ public class Server {
         Card card = target.getHand().drawRandomCard();
         currentPlayer.getHand().addCard(card);
         view.writeStealCard(currentPlayer, card, targetID);
-
-        System.out.println("TEMP: Play 2 cards");
-
     }
 
-    public void play3Cards(String cardName, int targetID, String targetCard) {
-        System.out.println("TEMP: Play 3 cards");
+    public void play3Cards(String cardName, int targetID, String targetCardName) {
+        currentPlayer.getHand().removeCard(cardsInGame.getCard(cardName), 3);
+        Player target = allPlayers.get(targetID);
+        String pickedCardName;
+        if (target.getHand().contains(targetCardName)) {
+            pickedCardName = targetCardName;
+            Card card = target.getHand().drawCard(targetCardName);
+            currentPlayer.getHand().addCard(card);
+        } else {
+            pickedCardName = "nothing";
+        }
+        view.writePickCard(allPlayers, currentPlayer, targetID, targetCardName, pickedCardName);
     }
 
     public void addOnlinePlayers(int numPlayers, View view) throws Exception {

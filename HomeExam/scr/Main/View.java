@@ -184,4 +184,18 @@ public class View {
         sendMessage(player, message);
         printServer("Player " + player.getPLAYER_ID() + " stole: " + card.getName() + " from player " + targetID);
     }
+
+    public void writePickCard(ArrayList<Player> players, Player currentPlayer, int targetID, String pickCardName,
+            String gotCardName) {
+        String message = " picked " + pickCardName + " from player " + targetID + " and got " + gotCardName;
+        for (Player player : players) {
+            if (player.getPLAYER_ID() == currentPlayer.getPLAYER_ID()) {
+                sendMessage(player, "You" + message);
+            } else {
+                sendMessage(player, "Player " + currentPlayer.getPLAYER_ID() + message);
+            }
+        }
+        printServer("Player " + currentPlayer.getPLAYER_ID() + message);
+    }
+
 }

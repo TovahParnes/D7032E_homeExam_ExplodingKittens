@@ -115,6 +115,12 @@ public class CardStack {
         return null;
     }
 
+    public Card drawCard(String name) {
+        Card card = getCard(name);
+        removeCard(card);
+        return card;
+    }
+
     public CardStack getUniqueCards() {
         CardStack uniqueCards = new CardStack();
         for (Card card : getCardStackAsArray()) {
