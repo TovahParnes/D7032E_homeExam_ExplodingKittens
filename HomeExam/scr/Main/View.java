@@ -166,4 +166,16 @@ public class View {
         printServer("Player " + currentPlayer.getPLAYER_ID() + " successfully placed the exploding kitten at position "
                 + cardPlacement + " in the deck");
     }
+
+    public void writeWinner(ArrayList<Player> players, Player currentPlayer) {
+        String message = "Player " + currentPlayer.getPLAYER_ID() + " won the game!\nThank you for playing.";
+        for (Player player : players) {
+            if (player.getPLAYER_ID() == currentPlayer.getPLAYER_ID()) {
+                sendMessage(player, "Congratulations! You won the game!\nThank you for playing.");
+            } else {
+                sendMessage(player, message);
+            }
+        }
+        printServer(message);
+    }
 }

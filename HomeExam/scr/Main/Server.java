@@ -256,6 +256,18 @@ public class Server {
     public void expodePlayer(Player player) {
         alivePlayers.remove(player);
         view.explodePlayer(allPlayers, player);
+        checkEndGame();
+    }
+
+    public void checkEndGame() {
+        if (alivePlayers.size() == 1) {
+            endGame();
+        }
+    }
+
+    public void endGame() {
+        view.writeWinner(allPlayers, alivePlayers.get(0));
+        System.exit(0);
     }
 
     public void defuseExplodingKitten() {
