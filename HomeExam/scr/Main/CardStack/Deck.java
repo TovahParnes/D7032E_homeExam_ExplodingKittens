@@ -89,7 +89,7 @@ public class Deck extends CardStack {
             if (card.getIsDealable()) {
                 hand.addCard(card);
             } else {
-                addCardInPlace(card, getCardStackLength() - 1);
+                addCardInPlace(card, getSize() - 1);
                 i--;
             }
         }

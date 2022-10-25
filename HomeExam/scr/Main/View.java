@@ -56,7 +56,7 @@ public class View {
     }
 
     public void printCurrentPlayer(Player currentPlayer) {
-        printServer("Current player: " + currentPlayer.getPLAYER_ID());
+        printServer("\nCurrent player: " + currentPlayer.getPLAYER_ID());
     }
 
     public String stringHand(Player player) {
@@ -122,7 +122,7 @@ public class View {
         }
     }
 
-    public void failedInput(Player player) {
+    public void invalidInput(Player player) {
         sendMessage(player, "Invalid input, please try again");
     }
 
@@ -144,23 +144,26 @@ public class View {
         }
     }
 
-    public void youDefusedExplodingKitten(Player player, int deckLegth) {
+    public void defusedExplodingKittenPlacementNeeded(Player player, int deckLegth) {
         sendMessage(player,
                 "You defused the exploding kitten. Where do you want to place it? [0 ... " + deckLegth + "]");
+        printServer("Player " + player.getPLAYER_ID() + " defused the exploding kitten");
     }
 
-    public void writeDefuseExpodingKitten(ArrayList<Player> players, Player currentPlayer) {
+    public void defusedExplodingKittenPlacementSuccessful(Player player, int cardPlacement) {
+        sendMessage(player,
+                "You successfully placed the exploding kitten at position " + cardPlacement + " in the deck");
+    }
+
+    public void writeDefuseExplodingKitten(ArrayList<Player> players, Player currentPlayer, int cardPlacement) {
         for (Player player : players) {
             if (player.getPLAYER_ID() == currentPlayer.getPLAYER_ID()) {
-                sendMessage(player, "You defused an exploding kitten!");
+                defusedExplodingKittenPlacementSuccessful(player, cardPlacement);
             } else {
                 sendMessage(player, "Player " + currentPlayer.getPLAYER_ID() + " defused an exploding kitten");
             }
-            printServer("Player " + currentPlayer.getPLAYER_ID() + " exploded");
         }
-    }
-
-    public void defuseExplodingKitten(ArrayList<Player> players, Player currentPlayer) {
-        //TODO
+        printServer("Player " + currentPlayer.getPLAYER_ID() + " successfully placed the exploding kitten at position "
+                + cardPlacement + " in the deck");
     }
 }

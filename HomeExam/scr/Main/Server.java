@@ -35,7 +35,6 @@ public class Server {
 
         deck = new Deck(options);
         cardsInGame = deck.getUniqueCards();
-        cardsInGame = new CardStack();
         deck.shuffle();
         addOnlinePlayers(options.getNUM_ONLINE_PLAYERS(), view);
         alivePlayers = new ArrayList<Player>(allPlayers);
@@ -66,9 +65,9 @@ public class Server {
             view.writeNewRoundsToPlayers(alivePlayers, currentPlayer, numTurns);
 
             String playerInput = view.readMessage(currentPlayer);
-            String[] input = playerInput.split(" ", -1);
+
             view.printServer("Player input: " + playerInput);
-            Boolean viableOption = viableOption(input);
+            Boolean viableOption = viableOption(playerInput);
             if (!viableOption) {
                 view.sendMessage(currentPlayer, "Invalid input, try again");
             }
@@ -76,7 +75,8 @@ public class Server {
         }
     }
 
-    public boolean viableOption(String[] input) {
+    public boolean viableOption(String playerInput) {
+        String[] input = playerInput.split(" ", -1);
         Boolean viableOption = false;
 
         // Input Pass
@@ -202,11 +202,19 @@ public class Server {
     }
 
     public void endTurn() {
-        numTurns--;
+        decreaseNumTurns();
         if (numTurns >= 0) {
             currentPlayer = getNextPlayer();
-            numTurns++;
+            increaseNumTurns();
         }
+    }
+
+    public void increaseNumTurns() {
+        numTurns++;
+    }
+
+    public void decreaseNumTurns() {
+        numTurns--;
     }
 
     public void explodePlayer() {
@@ -245,19 +253,40 @@ public class Server {
         return alivePlayers.get(id);
     }
 
-    public void expodePlayer() {
-        alivePlayers.remove(currentPlayer);
-        view.explodePlayer(allPlayers, currentPlayer);
+    public void expodePlayer(Player player) {
+        alivePlayers.remove(player);
+        view.explodePlayer(allPlayers, player);
     }
 
     public void defuseExplodingKitten() {
-        view.youDefusedExplodingKitten(currentPlayer, deck.getCardStackLength());
-        String input = view.readMessage(currentPlayer);
-        try {
-
-        } catch (Exception e) {
-            // TODO: handle exception
+        view.defusedExplodingKittenPlacementNeeded(currentPlayer, deck.getSize());
+        String playerInput = view.readMessage(currentPlayer);
+        Boolean viablePlacement = viableExplodingKittenPlacement(playerInput);
+        if (viablePlacement) {
+            String[] input = playerInput.split(" ", -1);
+            int cardPlacement = Integer.parseInt(input[0]);
+            deck.addCardInPlace(cardsInGame.getCard("ExplodingKitten"), cardPlacement);
+            view.writeDefuseExplodingKitten(allPlayers, currentPlayer, cardPlacement);
+        } else {
+            view.invalidInput(currentPlayer);
+            defuseExplodingKitten();
         }
-        view.defuseExplodingKitten(allPlayers, currentPlayer);
+    }
+
+    private Boolean viableExplodingKittenPlacement(String playerInput) {
+        String[] input = playerInput.split(" ", -1);
+        if (input.length != 1) {
+            return false;
+        }
+        try {
+            int cardPlacement = Integer.parseInt(input[0]);
+        } catch (Exception e) {
+            return false;
+        }
+        int cardPlacement = Integer.parseInt(input[0]);
+        if (cardPlacement < 0 || cardPlacement > deck.getSize()) {
+            return false;
+        }
+        return true;
     }
 }

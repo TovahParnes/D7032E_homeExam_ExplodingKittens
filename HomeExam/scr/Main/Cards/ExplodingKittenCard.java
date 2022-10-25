@@ -17,12 +17,12 @@ public class ExplodingKittenCard extends Card {
             defuseExpodingKitten(server, player);
         } else {
             player.explode();
-            server.expodePlayer();
+            server.expodePlayer(player);
         }
     }
 
     private void defuseExpodingKitten(Server server, Player player) {
-        Card defuseCard = new DefuseCard();
+        Card defuseCard = player.getHand().getCard("Defuse");
         player.removeCard(defuseCard);
         defuseCard.onPlay(server);
     }

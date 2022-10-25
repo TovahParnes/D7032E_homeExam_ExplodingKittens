@@ -36,7 +36,7 @@ public class CardStack {
         return cardStack;
     }
 
-    public int getCardStackLength() {
+    public int getSize() {
         return cardStack.size();
     }
 

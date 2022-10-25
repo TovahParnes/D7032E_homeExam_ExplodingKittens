@@ -11,7 +11,7 @@ public class DefuseCard extends Card {
         this.isPlayable = false;
     }
 
-    public void onPlay(Server server, Player player) {
+    public void onPlay(Server server) {
         server.defuseExplodingKitten();
     }
 
