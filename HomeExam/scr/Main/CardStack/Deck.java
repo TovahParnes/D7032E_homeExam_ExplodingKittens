@@ -10,7 +10,7 @@ import org.json.simple.parser.JSONParser;
 import HomeExam.scr.Main.Options;
 import HomeExam.scr.Main.Cards.Card;
 import HomeExam.scr.Main.Cards.DefuseCard;
-import HomeExam.scr.Main.Cards.SkipCard;
+import HomeExam.scr.Main.Cards.*; //TEMP
 
 public class Deck extends CardStack {
     /**
@@ -83,6 +83,7 @@ public class Deck extends CardStack {
         CardStack hand = new CardStack();
         for (int i = 0; i < options.getDEFUSE_CARDS_PER_PERSON(); i++) {
             hand.addCard(new DefuseCard());
+            hand.addCard(new AttackCard()); //TEMP
         }
         for (int i = 0; i < options.getNUM_CARDS_IN_HAND(); i++) {
             Card card = drawCard();

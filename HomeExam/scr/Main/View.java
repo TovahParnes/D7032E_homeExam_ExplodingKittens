@@ -77,7 +77,7 @@ public class View {
     }
 
     private void writeNotYourTurn(Player player, Player currentPlayer) {
-        String message = "It is now the turn of player " + currentPlayer.getPLAYER_ID() + "\n";
+        String message = "\nIt is now the turn of player " + currentPlayer.getPLAYER_ID();
         sendMessage(player, message);
     }
 
@@ -196,6 +196,16 @@ public class View {
             }
         }
         printServer("Player " + currentPlayer.getPLAYER_ID() + message);
+    }
+
+    public void writePlayerPassed(ArrayList<Player> players, Player currentPlayer) {
+        String message = "Player " + currentPlayer.getPLAYER_ID() + " Passed.";
+        for (Player player : players) {
+            if (player.getPLAYER_ID() != currentPlayer.getPLAYER_ID()) {
+                sendMessage(player, message);
+            }
+        }
+        printServer(message);
     }
 
 }

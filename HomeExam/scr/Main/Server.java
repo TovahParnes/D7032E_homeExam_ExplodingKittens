@@ -193,6 +193,7 @@ public class Server {
 
     public void pass() {
         Card card = deck.drawCard();
+        view.writePlayerPassed(allPlayers, currentPlayer);
         view.writeDrawCard(currentPlayer, card);
         card.onDraw(this, currentPlayer);
         currentPlayer.getHand().addCard(card);
@@ -200,23 +201,23 @@ public class Server {
     }
 
     public void endTurn() {
-        decreaseNumTurns();
-        if (numTurns >= 0) {
-            currentPlayer = getNextPlayer();
-            increaseNumTurns();
+        decreaseNumTurns(1);
+        if (numTurns <= 0) {
+            nextPlayer();
+            increaseNumTurns(1);
         }
     }
 
-    public void increaseNumTurns() {
-        numTurns++;
+    public void increaseNumTurns(int turns) {
+        numTurns += turns;
     }
 
-    public void decreaseNumTurns() {
-        numTurns--;
+    public void decreaseNumTurns(int turns) {
+        numTurns -= turns;
     }
 
-    public void explodePlayer() {
-
+    public int getNumTurns() {
+        return numTurns;
     }
 
     public void play2Cards(String cardName, int targetID) {
@@ -257,11 +258,15 @@ public class Server {
         return alivePlayers.get(id);
     }
 
-    private Player getNextPlayer() {
+    public Player getNextPlayer() {
         Player player;
         int id = alivePlayers.indexOf(currentPlayer);
         id = (id + 1) % alivePlayers.size();
         return alivePlayers.get(id);
+    }
+
+    public void nextPlayer() {
+        currentPlayer = getNextPlayer();
     }
 
     public void expodePlayer(Player player) {
