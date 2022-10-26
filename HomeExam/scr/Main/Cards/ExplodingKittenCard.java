@@ -23,7 +23,7 @@ public class ExplodingKittenCard extends Card {
 
     private void defuseExplodingKitten(Server server, Player player) {
         Card defuseCard = player.getHand().getCard("Defuse");
-        player.removeCard(defuseCard);
+        player.getHand().removeCard(defuseCard);
         defuseCard.onPlay(server);
     }
 

@@ -28,7 +28,7 @@ public class View {
      */
     public void sendMessage(Player player, Object message) {
         try {
-            player.outToClient.writeObject(message);
+            player.getOutToClient().writeObject(message);
         } catch (Exception e) {
             printServer("Sending to client failed: " + e.getMessage());
         }
@@ -43,7 +43,7 @@ public class View {
     public String readMessage(Player player) {
         String word = " ";
         try {
-            word = (String) player.inFromClient.readObject();
+            word = (String) player.getInFromClient().readObject();
         } catch (Exception e) {
             printServer("Reading from client failed: " + e.getMessage());
         }

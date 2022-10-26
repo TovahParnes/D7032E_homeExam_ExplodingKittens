@@ -15,22 +15,8 @@ public class Player {
     protected Hand hand;
     protected Socket connection;
     protected boolean exploded = false;
-    public ObjectInputStream inFromClient;
-    public ObjectOutputStream outToClient;
-    Scanner in = new Scanner(System.in);
-    protected View view;
-
-    public void addCard(Card card) {
-        hand.addCard(card);
-    }
-
-    public void removeCard(Card card) {
-        hand.removeCard(card);
-    }
-
-    public Boolean containsCard(Card card) {
-        return hand.contains(card);
-    }
+    protected ObjectInputStream inFromClient;
+    protected ObjectOutputStream outToClient;
 
     public Hand getHand() {
         return hand;
@@ -44,6 +30,17 @@ public class Player {
         return PLAYER_ID;
     }
 
+    public ObjectInputStream getInFromClient() {
+        return inFromClient;
+    }
+
+    public ObjectOutputStream getOutToClient() {
+        return outToClient;
+    }
+
+    /**
+     * Set eploded to true
+     */
     public void explode() {
         exploded = true;
     }

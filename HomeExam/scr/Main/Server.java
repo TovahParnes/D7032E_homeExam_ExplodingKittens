@@ -525,7 +525,7 @@ public class Server {
             Socket connectionSocket = aSocket.accept();
             ObjectInputStream inFromClient = new ObjectInputStream(connectionSocket.getInputStream());
             ObjectOutputStream outToClient = new ObjectOutputStream(connectionSocket.getOutputStream());
-            Player player = new OnlinePlayer(onlineClient, connectionSocket, inFromClient, outToClient, view);
+            Player player = new OnlinePlayer(onlineClient, connectionSocket, inFromClient, outToClient);
             allPlayers.add(player);
             view.printConnection(player);
         }
@@ -536,66 +536,39 @@ public class Server {
      */
 
     /* allPlayers */
-    /**
-     * @return ArrayList<Player> allPlayers
-     */
     public ArrayList<Player> getAllPlayers() {
         return allPlayers;
     }
 
     /* alivePlayers */
-    /**
-     * @return ArrayList<Player> alivePlayers
-     */
     public ArrayList<Player> getAlivePlayers() {
         return alivePlayers;
     }
 
     /* view */
-    /**
-     * @return View view
-     */
     public View getView() {
         return view;
     }
 
     /* options */
-    /**
-     * @return Options options
-     */
     public Options getOptions() {
         return options;
     }
 
     /* deck */
-    /**
-     * @return Deck deck
-     */
     public Deck getDeck() {
         return deck;
     }
 
     /* cardsInGame */
-    /**
-     * @return CardStack cardsInGame
-     */
     public CardStack getCardsInGame() {
         return cardsInGame;
     }
 
-    /* numTurns */
-    /**
-     * @return int numTurns
-     */
     public int getNumTurns() {
         return numTurns;
     }
 
-    /**
-     * Sets the number of turns
-     * 
-     * @param numTurns int - the number of turns
-     */
     public void setNumTurns(int numTurns) {
         this.numTurns = numTurns;
     }
@@ -614,10 +587,6 @@ public class Server {
         numTurns -= turns;
     }
 
-    /* currentPlayer */
-    /**
-     * @return Player - the currentPlayer
-     */
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
@@ -629,18 +598,11 @@ public class Server {
         view.sendMessage(currentPlayer, message);
     }
 
-    /**
-     * 
-     * @return Player - the current player
-     */
     public Player getStartingPlayer() {
         int id = ThreadLocalRandom.current().nextInt(alivePlayers.size());
         return alivePlayers.get(id);
     }
 
-    /**
-     * @return Player - the next player
-     */
     public Player getNextPlayer() {
         Player player;
         int id = alivePlayers.indexOf(currentPlayer);
@@ -648,9 +610,6 @@ public class Server {
         return alivePlayers.get(id);
     }
 
-    /**
-     * Sets the currentPlayer to the next player
-     */
     public void setNextPlayer() {
         currentPlayer = getNextPlayer();
     }

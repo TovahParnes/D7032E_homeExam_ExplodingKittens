@@ -8,20 +8,14 @@ import java.util.concurrent.*;
 import HomeExam.scr.Main.View;
 import HomeExam.scr.Main.Cards.Card;
 
-public class OnlinePlayer extends Player{
+public class OnlinePlayer extends Player {
 
-    public OnlinePlayer(int PLAYER_ID, Socket connection, ObjectInputStream inFromClient, ObjectOutputStream outToClient, View view)
-    {
+    public OnlinePlayer(int PLAYER_ID, Socket connection, ObjectInputStream inFromClient,
+            ObjectOutputStream outToClient) {
         this.PLAYER_ID = PLAYER_ID;
         this.connection = connection;
         this.inFromClient = inFromClient;
         this.outToClient = outToClient;
-        this.view = view;
-    }
-
-    public void playCard(Card card){
-        hand.removeCard(card);
     }
 
 }
-

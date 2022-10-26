@@ -2,10 +2,10 @@ package HomeExam.scr.Main;
 
 public class ExplodingKittens {
     /**
-     * starts the games and takes the given argument when starting,
-     * If you put in a single number, it will host a game with that many slots
-     * An ip adress as argument will join the game at that ip
-     * and no argument at all will start a game with bots
+     * starts the games and takes the given argument when starting the game
+     * Arguemtn 0: number of online players
+     * Argument 1: number of bots
+     * Argument 2: version
      * 
      * @param argv
      * @throws Exception
@@ -27,6 +27,14 @@ public class ExplodingKittens {
         }
     }
 
+    /**
+     * Arguemtn 0: number of online players
+     * Argument 1: number of bots
+     * Argument 2: version
+     * 
+     * @param args
+     * @throws Exception
+     */
     public static void main(String argv[]) {
         try {
             new ExplodingKittens(argv);
