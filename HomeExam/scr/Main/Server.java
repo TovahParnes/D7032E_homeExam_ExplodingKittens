@@ -527,7 +527,7 @@ public class Server {
             ObjectOutputStream outToClient = new ObjectOutputStream(connectionSocket.getOutputStream());
             Player player = new OnlinePlayer(onlineClient, connectionSocket, inFromClient, outToClient, view);
             allPlayers.add(player);
-            view.printConnection(player, onlineClient);
+            view.printConnection(player);
         }
     }
 
