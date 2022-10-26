@@ -1,8 +1,5 @@
 package HomeExam.scr.Main;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
 
 import HomeExam.scr.Main.CardStack.Hand;
@@ -14,7 +11,7 @@ public class View {
     /**
      * Prints a message to the server console
      * 
-     * @param message
+     * @param message String - message to print
      */
     public void printServer(String message) {
         System.out.println(message);
@@ -51,31 +48,18 @@ public class View {
     }
 
     /**
-     * Reads an interruptable message from the client console
+     * Reads an interruptible message from the client console
      * 
      * @param player  Player - the player to print to
      * @param seconds int - for how many seconds to read
      * @return String - the read message
      */
-    public String readMessageInterruptible(Player player, int seconds)
-            throws IOException, InterruptedException {
-        try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            int millisecondsWaited = 0;
-            while (!br.ready() && millisecondsWaited < (seconds * 1000)) {
-                Thread.sleep(200);
-                millisecondsWaited += 200;
-            }
-            if (br.ready())
-                return br.readLine();
-        } catch (Exception e) {
-            printServer("Interruptible reading from client failed: " + e.getMessage());
-        }
+    public String readMessageInterruptible(Player player, int seconds) {
         return null;
     }
 
     /**
-     * Prints that a client is connected to the client and srver
+     * Prints that a client is connected to the client and server
      * 
      * @param player Player - the player to print to
      */
@@ -119,7 +103,7 @@ public class View {
     }
 
     /**
-     * Writes the the new round to all players and server
+     * Writes the new round to all players and server
      * 
      * @param players       ArrayList<Player> - the players
      * @param currentPlayer player - the player
@@ -138,7 +122,7 @@ public class View {
     }
 
     /**
-     * Writed whos turn it is to the player and server
+     * Write who's turn it is to the player and server
      * 
      * @param player        player - the player
      * @param currentPlayer player - the current player
@@ -153,7 +137,7 @@ public class View {
      * 
      * @param player    player - the player
      * @param turnsLeft int - the number of turns left
-     * @param targets   String - the availible targets
+     * @param targets   String - the available targets
      */
     private void writeYourTurn(Player player, int turnsLeft, String targets) {
         String message = "It is your turn\n\n";
@@ -167,11 +151,11 @@ public class View {
      * Writes the players options
      * 
      * @param hand    Hand - the hand
-     * @param targets String - the availible targets
+     * @param targets String - the available targets
      * @return String - the player options
      */
     public String stringPlayerOptions(Hand hand, String targets) {
-        ArrayList<String> uniqueCards = new ArrayList<String>();
+        ArrayList<String> uniqueCards = new ArrayList<>();
 
         String yourOptions = "You have the following options:\n";
 
@@ -253,7 +237,7 @@ public class View {
     }
 
     /**
-     * Writed to the player that they defused a kitten and needs to place it in the
+     * Write to the player that they defused a kitten and needs to place it in the
      * deck
      * 
      * @param player     Player - the player
@@ -369,7 +353,7 @@ public class View {
      * Writes that player needs to give a card to targetPlayer
      * 
      * @param player       Player - the player that needs to give a card
-     * @param targetPlayer int - the player will recieve the card
+     * @param targetPlayer int - the player will receive the card
      */
     public void writeGiveCardToPlayer(Player player, int targetPlayer) {
         String message = stringHand(player);
@@ -381,7 +365,7 @@ public class View {
      * Writes to players and server that targetPlayer gave a card to currentPlayer
      * 
      * @param allPlayers    ArrayList<Player> - the players
-     * @param currentPlayer Player - the player that recieves the card
+     * @param currentPlayer Player - the player that receives the card
      * @param targetPlayer  int - the player that gave the card
      * @param cardName      String - the name of the card
      */
@@ -429,14 +413,7 @@ public class View {
     public String writeNope(Player player, int secondsToInterrupt) {
         sendMessage(player, "Press <Enter> to play Nope");
         String message = null;
-        try {
-            message = readMessageInterruptible(player, secondsToInterrupt);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        message = readMessageInterruptible(player, secondsToInterrupt);
         return message;
     }
-
 }

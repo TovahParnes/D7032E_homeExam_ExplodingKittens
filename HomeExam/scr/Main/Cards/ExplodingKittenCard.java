@@ -17,7 +17,7 @@ public class ExplodingKittenCard extends Card {
             defuseExplodingKitten(server, player);
         } else {
             player.explode();
-            server.expodePlayer(player);
+            server.explodePlayer(player);
         }
     }
 

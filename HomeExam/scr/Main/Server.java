@@ -13,12 +13,12 @@ import HomeExam.scr.Main.Cards.Card;
 
 public class Server {
 
-    private ArrayList<Player> allPlayers = new ArrayList<Player>();
-    private ArrayList<Player> alivePlayers;
-    private View view;
-    private Options options;
-    private Deck deck;
-    private CardStack cardsInGame;
+    private final ArrayList<Player> allPlayers = new ArrayList<>();
+    private final ArrayList<Player> alivePlayers;
+    private final View view;
+    private final Options options;
+    private final Deck deck;
+    private final CardStack cardsInGame;
 
     private static int numTurns;
     private Player currentPlayer;
@@ -26,9 +26,8 @@ public class Server {
     /**
      * @param options - object containing all the game options
      * @param view    - object handling all messages
-     * @throws Exception
      */
-    public Server(Options options, View view) throws Exception {
+    public Server(Options options, View view) {
         this.view = view;
         this.options = options;
 
@@ -39,7 +38,7 @@ public class Server {
         cardsInGame = deck.getUniqueCards();
         deck.shuffle();
         addOnlinePlayers(options.getNUM_ONLINE_PLAYERS(), view);
-        alivePlayers = new ArrayList<Player>(allPlayers);
+        alivePlayers = new ArrayList<>(allPlayers);
 
         for (Player player : alivePlayers) {
             player.setHand(deck.generateHand(options));
@@ -54,24 +53,25 @@ public class Server {
 
     /**
      * Starts the game by running the game loop
-     * 
-     * @throws Exception
      */
-    private void startGameLoop() throws Exception {
+    private void startGameLoop() {
         view.printServer("Started game loop");
-        numTurns++;
-        while (true) {
-            view.writeNewRoundsToPlayers(alivePlayers, currentPlayer, numTurns, getTargets());
+        numTurns = 1;
+        gameLoop();
+    }
 
-            String playerInput = view.readMessage(currentPlayer);
+    private void gameLoop() {
+        view.writeNewRoundsToPlayers(alivePlayers, currentPlayer, numTurns, getTargets());
 
-            view.printServer("Player input: " + playerInput);
-            Boolean viableOption = viableOption(playerInput);
-            if (!viableOption) {
-                view.sendMessage(currentPlayer, "Invalid input, try again");
-            }
-            view.printServer("Viable option = " + viableOption);
+        String playerInput = view.readMessage(currentPlayer);
+
+        view.printServer("Player input: " + playerInput);
+        boolean viableOption = viableOption(playerInput);
+        if (!viableOption) {
+            view.sendMessage(currentPlayer, "Invalid input, try again");
         }
+        view.printServer("Viable option = " + viableOption);
+        gameLoop();
     }
 
     /**
@@ -82,7 +82,7 @@ public class Server {
      */
     public boolean viableOption(String playerInput) {
         String[] input = playerInput.split(" ", -1);
-        Boolean viableOption = false;
+        boolean viableOption = false;
 
         // Input Pass
         if (input.length == 1 && input[0].equals("Pass")) {
@@ -109,7 +109,7 @@ public class Server {
      * @return true if the input is viable, false if not
      */
     private Boolean validateInputLength1(String[] input) {
-        Boolean viableOption;
+        boolean viableOption;
         String cardName = input[0];
         Boolean containsCard = currentPlayer.getHand().contains(cardName);
         if (!containsCard) {
@@ -138,7 +138,7 @@ public class Server {
      * @return true if the input is viable, false if not
      */
     private Boolean validateInputLength2(String[] input) {
-        Boolean viableOption;
+        boolean viableOption;
         String cardName = input[0];
         Boolean containsCard = currentPlayer.getHand().contains(cardName);
         if (!containsCard) {
@@ -155,7 +155,7 @@ public class Server {
             return false;
         }
         int targetID = Integer.parseInt(input[1]);
-        Boolean viableTarget = viableTarget(targetID);
+        boolean viableTarget = viableTarget(targetID);
         if (!viableTarget) {
             return false;
         }
@@ -176,7 +176,7 @@ public class Server {
      * @return true if the input is viable, false if not
      */
     private Boolean validateInputLength3(String[] input) {
-        Boolean viableOption;
+        boolean viableOption;
         int validInputNumCards = 2;
         try {
             int numCards = Integer.parseInt(input[0]);
@@ -198,7 +198,7 @@ public class Server {
             return false;
         }
         int targetID = Integer.parseInt(input[2]);
-        Boolean viableTarget = viableTarget(targetID);
+        boolean viableTarget = viableTarget(targetID);
         if (!viableTarget) {
             return false;
         }
@@ -220,7 +220,7 @@ public class Server {
      * @return true if the input is viable, false if not
      */
     private Boolean validateInputLength4(String[] input) {
-        Boolean viableOption;
+        boolean viableOption;
         int validInputNumCards = 3;
         try {
             int numCards = Integer.parseInt(input[0]);
@@ -242,7 +242,7 @@ public class Server {
             return false;
         }
         int targetID = Integer.parseInt(input[2]);
-        Boolean viableTarget = viableTarget(targetID);
+        boolean viableTarget = viableTarget(targetID);
         if (!viableTarget) {
             return false;
         }
@@ -265,7 +265,6 @@ public class Server {
      * 
      * @param cardName String - name of the card played
      * @param numCards int - number of cards played
-     * @return true if the target is viable, false if not
      */
     private void writePlayCard(String cardName, int numCards) {
         view.writePlayCard(allPlayers, currentPlayer.getPLAYER_ID(), cardName, numCards);
@@ -294,10 +293,14 @@ public class Server {
      * @return true if the target is viable, false if not
      */
     private boolean viableTarget(int targetID) {
-        if (targetID >= 0 && targetID < alivePlayers.size() && targetID != currentPlayer.getPLAYER_ID()) {
-            return true;
-        } else
-            return false;
+        for (Player player : alivePlayers) {
+            if (player.getPLAYER_ID() != currentPlayer.getPLAYER_ID()) {
+                if (player.getPLAYER_ID() == targetID) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -325,7 +328,7 @@ public class Server {
     }
 
     /**
-     * Play 2 cards to recieve a random card from the target
+     * Play 2 cards to receive a random card from the target
      * 
      * @param cardName - String the name of the card played
      * @param targetID - int the ID of the target
@@ -364,7 +367,7 @@ public class Server {
      * 
      * @param player Player - the player that exploded
      */
-    public void expodePlayer(Player player) {
+    public void explodePlayer(Player player) {
         alivePlayers.remove(player);
         view.explodePlayer(allPlayers, player);
         checkEndGame();
@@ -431,12 +434,12 @@ public class Server {
     }
 
     /**
-     * Checks if the inputted ammount of players are allowed
+     * Checks if the inputted amount of players are allowed
      * 
      * @param numPlayers - int the number of players
      * @param minPlayers - int the minimum number of players
      * @param maxPlayers - int the maximum number of players
-     * @return true if the ammount of players is allowed, false if not
+     * @throws Exception if the number of players is not allowed
      */
     private void validAmountOfPlayers(int numPlayers, int minPlayers, int maxPlayers) throws Exception {
         if (numPlayers < minPlayers || numPlayers > maxPlayers) {
@@ -485,9 +488,7 @@ public class Server {
     }
 
     /**
-     * plays nope for each player
-     *
-     * @return true if the target is allowed, false if not
+     * plays nope for each alive player
      */
     private void nope() {
         System.out.println("TEMP: NOPE HERE");
@@ -501,7 +502,6 @@ public class Server {
      * nope and plays the nope if the player wants to
      * 
      * @param player Player - the player to play nope
-     * @return true if the target is allowed, false if not
      */
     public void playerPlayNope(Player player) {
         if (player.getHand().contains("Nope")) {
@@ -517,18 +517,25 @@ public class Server {
      * 
      * @param numPlayers int - the number of players in the game
      * @param view       View - the view of the game
-     * @throws Exception
+     * @throws Exception -
      */
     public void addOnlinePlayers(int numPlayers, View view) throws Exception {
         ServerSocket aSocket = new ServerSocket(2048);
-        for (int onlineClient = 0; onlineClient < numPlayers; onlineClient++) {
-            Socket connectionSocket = aSocket.accept();
-            ObjectInputStream inFromClient = new ObjectInputStream(connectionSocket.getInputStream());
-            ObjectOutputStream outToClient = new ObjectOutputStream(connectionSocket.getOutputStream());
-            Player player = new OnlinePlayer(onlineClient, connectionSocket, inFromClient, outToClient);
-            allPlayers.add(player);
-            view.printConnection(player);
+        try {
+            for (int onlineClient = 0; onlineClient < numPlayers; onlineClient++) {
+                Socket connectionSocket = aSocket.accept();
+                ObjectInputStream inFromClient = new ObjectInputStream(connectionSocket.getInputStream());
+                ObjectOutputStream outToClient = new ObjectOutputStream(connectionSocket.getOutputStream());
+                Player player = new OnlinePlayer(onlineClient, connectionSocket, inFromClient, outToClient);
+                allPlayers.add(player);
+                view.printConnection(player);
+            }
+        } catch (Exception e) {
+            throw new Exception("Error while adding online players");
+        } finally {
+            aSocket.close();
         }
+
     }
 
     /**
