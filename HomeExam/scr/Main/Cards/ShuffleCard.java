@@ -11,7 +11,7 @@ public class ShuffleCard extends Card {
     }
 
     public void onPlay(Server server) {
-        server.shuffleDeck();
+        server.getDeck().shuffle();
     }
 
 }

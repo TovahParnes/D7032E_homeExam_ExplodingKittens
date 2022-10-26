@@ -21,7 +21,13 @@ public class Options {
     private static int NUM_BOTS;
     private static int NUM_PLAYERS;
 
-    public Options(String fileName, int numOnlinePlayers, int numBots) throws Exception{
+    /**
+     * @param fileName         String - the name of the file to read from
+     * @param numOnlinePlayers int - the number of online players
+     * @param numBots          int - the number of bots
+     * @throws Exception
+     */
+    public Options(String fileName, int numOnlinePlayers, int numBots) throws Exception {
         NUM_ONLINE_PLAYERS = numOnlinePlayers;
         NUM_BOTS = numBots;
         NUM_PLAYERS = NUM_ONLINE_PLAYERS + NUM_BOTS;
@@ -72,8 +78,13 @@ public class Options {
         return CARDS_JSON_FILE;
     }
 
-    public static void readOptionsJSON(String fileName) throws Exception
-    {
+    /**
+     * Reads the options from the JSON file
+     * 
+     * @param fileName
+     * @throws Exception
+     */
+    public static void readOptionsJSON(String fileName) throws Exception {
         try {
             JSONParser parser = new JSONParser();
             Object obj = parser.parse(new FileReader("HomeExam/scr/Main/GameVariables/" + fileName + ".json"));
@@ -83,15 +94,15 @@ public class Options {
             DEFUSE_CARDS_PER_PERSON = ((Long) jsonObject.get("DEFUSE_CARDS_PER_PERSON")).intValue();
             NUM_CARDS_IN_HAND = ((Long) jsonObject.get("NUM_CARDS_IN_HAND")).intValue();
             SECONDS_TO_PLAY_NOPE = ((Long) jsonObject.get("SECONDS_TO_PLAY_NOPE")).intValue();
-            NUM_EXPLODING_KITTENS = NUM_PLAYERS + ((Long) jsonObject.get("NUM_EXPLODING_KITTENS_PER_PLAYERS")).intValue();
+            NUM_EXPLODING_KITTENS = NUM_PLAYERS
+                    + ((Long) jsonObject.get("NUM_EXPLODING_KITTENS_PER_PLAYERS")).intValue();
             CARDS_JSON_FILE = (String) jsonObject.get("CARDS_JSON_FILE");
 
             JSONObject defuseCardsObject = (JSONObject) jsonObject.get("DEFUSE_CARDS_IN_DECK");
-            String numPlayers = Integer.toString(NUM_PLAYERS);    
+            String numPlayers = Integer.toString(NUM_PLAYERS);
             NUM_DEFUSE_CARDS = ((Long) defuseCardsObject.get(numPlayers)).intValue();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 }
-

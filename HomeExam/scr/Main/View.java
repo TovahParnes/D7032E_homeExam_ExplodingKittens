@@ -80,7 +80,7 @@ public class View {
      * @param player Player - the player to print to
      */
     public void printConnection(Player player) {
-        sendMessage(player, "You are connected to the server as player " + player.getPLAYER_ID);
+        sendMessage(player, "You are connected to the server as player " + player.getPLAYER_ID());
         printServer("Connected to Player ID: " + player.getPLAYER_ID());
     }
 
@@ -123,8 +123,7 @@ public class View {
      * 
      * @param players       ArrayList<Player> - the players
      * @param currentPlayer player - the player
-     * @param turns         int - the number of turns
-     * @param targets       String - the availible tagets
+     * @param turnsLeft     int - the number of turns
      */
     public void writeNewRoundsToPlayers(ArrayList<Player> players, Player currentPlayer, int turnsLeft,
             String targets) {
@@ -260,9 +259,9 @@ public class View {
      * @param player     Player - the player
      * @param deckLength int - the length of the deck
      */
-    public void defusedExplodingKittenPlacementNeeded(Player player, int deckLegth) {
+    public void defusedExplodingKittenPlacementNeeded(Player player, int deckLength) {
         sendMessage(player,
-                "You defused the exploding kitten. Where do you want to place it? [0 ... " + deckLegth + "]");
+                "You defused the exploding kitten. Where do you want to place it? [0 ... " + deckLength + "]");
         printServer("Player " + player.getPLAYER_ID() + " defused the exploding kitten");
     }
 
@@ -282,7 +281,7 @@ public class View {
      * Writes that currentPlayer exploded a kitten to players and server
      * 
      * @param players       ArrayList<Player> - the players
-     * @param player        Player - the player
+     * @param currentPlayer Player - the player
      * @param cardPlacement int - the placement of the card in the deck
      */
     public void writeDefuseExplodingKitten(ArrayList<Player> players, Player currentPlayer, int cardPlacement) {
@@ -300,8 +299,8 @@ public class View {
     /**
      * Write that currentPlayer won the game to all players and server
      * 
-     * @param players ArrayList<Player> - the players
-     * @param player  Player - the player
+     * @param players       ArrayList<Player> - the players
+     * @param currentPlayer Player - the player
      */
     public void writeWinner(ArrayList<Player> players, Player currentPlayer) {
         String message = "Player " + currentPlayer.getPLAYER_ID() + " won the game!\nThank you for playing.";
@@ -337,9 +336,9 @@ public class View {
      * @param targetID       int - the id of the target player
      * @param pickedCardName String - the name of the picked card
      */
-    public void writePickCard(ArrayList<Player> players, Player currentPlayer, int targetID, String pickCardName,
+    public void writePickCard(ArrayList<Player> players, Player currentPlayer, int targetID, String pickedCardName,
             String gotCardName) {
-        String message = " picked " + pickCardName + " from player " + targetID + " and got " + gotCardName;
+        String message = " picked " + pickedCardName + " from player " + targetID + " and got " + gotCardName;
         for (Player player : players) {
             if (player.getPLAYER_ID() == currentPlayer.getPLAYER_ID()) {
                 sendMessage(player, "You" + message);
@@ -381,7 +380,7 @@ public class View {
     /**
      * Writes to players and server that targetPlayer gave a card to currentPlayer
      * 
-     * @param players       ArrayList<Player> - the players
+     * @param allPlayers    ArrayList<Player> - the players
      * @param currentPlayer Player - the player that recieves the card
      * @param targetPlayer  int - the player that gave the card
      * @param cardName      String - the name of the card
@@ -390,7 +389,7 @@ public class View {
         for (Player player : allPlayers) {
             if (player.getPLAYER_ID() == targetPlayer) {
                 sendMessage(player, "You gave " + cardName + " to Player " + currentPlayer);
-            } else if (player.getPLAYER_ID() == targetPlayer) {
+            } else if (player.getPLAYER_ID() == currentPlayer) {
                 sendMessage(player, "You drew " + cardName + " from player " + currentPlayer);
             } else {
                 sendMessage(player, "Player " + targetPlayer + " gave a card to Player " + currentPlayer);
@@ -402,7 +401,7 @@ public class View {
     /**
      * Writes that player played numCards cardName
      * 
-     * @param players       ArrayList<Player> - the players
+     * @param allPlayers    ArrayList<Player> - the players
      * @param currentPlayer int - the player that player
      * @param cardName      String - the name of the card
      * @param numCards      int - the number of cards

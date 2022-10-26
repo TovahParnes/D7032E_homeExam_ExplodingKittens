@@ -11,7 +11,7 @@ public class AttackCard extends Card {
     }
 
     public void onPlay(Server server) {
-        server.nextPlayer();
+        server.setNextPlayer();
         if (server.getNumTurns() == 1) {
             server.increaseNumTurns(1);
         } else {

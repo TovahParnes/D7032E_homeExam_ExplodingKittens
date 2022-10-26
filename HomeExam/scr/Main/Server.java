@@ -316,7 +316,7 @@ public class Server {
      * End the turn: decrease the number of turns left, change the current player if
      * applicable
      */
-    private void endTurn() {
+    public void endTurn() {
         decreaseNumTurns(1);
         if (numTurns <= 0) {
             setNextPlayer();
