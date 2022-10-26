@@ -97,7 +97,8 @@ public class Server {
             }
 
             viableOption = true;
-            view.writePlayCard(allPlayers, currentPlayer.getPLAYER_ID(), cardName);
+            view.writePlayCard(allPlayers, currentPlayer.getPLAYER_ID(), cardName, 1);
+            nope();
             currentPlayer.getHand().getCard(cardName).onPlay(this);
 
         } else if (input.length == 2) // Input <Card> <Target>
@@ -124,7 +125,8 @@ public class Server {
             }
 
             viableOption = true;
-            view.writePlayCard(allPlayers, currentPlayer.getPLAYER_ID(), cardName);
+            view.writePlayCard(allPlayers, currentPlayer.getPLAYER_ID(), cardName, 1);
+            nope();
             currentPlayer.getHand().getCard(cardName).onPlay(this, allPlayers.get(targetID));
 
         } else if (input.length == 3) // Input <NumCards> <Card> <Target>
@@ -155,6 +157,8 @@ public class Server {
             }
 
             viableOption = true;
+            view.writePlayCard(allPlayers, currentPlayer.getPLAYER_ID(), cardName, numCards);
+            nope();
             play2Cards(cardName, targetID);
 
         } else if (input.length == 4) // Input <NumCards> <Card> <Target> <TargetCards>
@@ -190,6 +194,8 @@ public class Server {
             }
 
             viableOption = true;
+            view.writePlayCard(allPlayers, currentPlayer.getPLAYER_ID(), cardName, numCards);
+            nope();
             play3Cards(cardName, targetID, targetCard);
         }
         return viableOption;
@@ -237,6 +243,10 @@ public class Server {
         numTurns -= turns;
     }
 
+    public void setNumTurns(int turns) {
+        numTurns = turns;
+    }
+
     public int getNumTurns() {
         return numTurns;
     }
@@ -250,7 +260,7 @@ public class Server {
         Player target = allPlayers.get(targetID);
         Card card = target.getHand().drawRandomCard();
         currentPlayer.getHand().addCard(card);
-        view.writeStealCard(currentPlayer, card, targetID);
+        view.writeStealCard(currentPlayer, card, allPlayers.get(targetID));
     }
 
     public void play3Cards(String cardName, int targetID, String targetCardName) {
@@ -298,6 +308,8 @@ public class Server {
         alivePlayers.remove(player);
         view.explodePlayer(allPlayers, player);
         checkEndGame();
+        setNumTurns(1);
+        nextPlayer();
     }
 
     public void checkEndGame() {
@@ -388,5 +400,21 @@ public class Server {
 
     public void sendToCurrentPlayer(String message) {
         view.sendMessage(currentPlayer, message);
+    }
+
+    public void nope() {
+        System.out.println("TEMP: NOPE HERE");
+        for (Player player : alivePlayers) {
+            // playerPlayNope(player);
+        }
+    }
+
+    public void playerPlayNope(Player player) {
+        if (player.getHand().contains("Nope")) {
+            String input = view.writeNope(player, options.getSECONDS_TO_PLAY_NOPE());
+            System.out.println("TEMP: input = " + input);
+            player.getHand().removeCard(cardsInGame.getCard("Nope"), 1);
+
+        }
     }
 }

@@ -1,8 +1,10 @@
 package HomeExam.scr.Main;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
-import HomeExam.scr.Main.CardStack.CardStack;
 import HomeExam.scr.Main.CardStack.Hand;
 import HomeExam.scr.Main.Cards.Card;
 import HomeExam.scr.Main.Players.Player;
@@ -29,6 +31,23 @@ public class View {
             printServer("Reading from client failed: " + e.getMessage());
         }
         return word;
+    }
+
+    public String readMessageInterruptible(Player player, int secondsToInterruptWithNope)
+            throws IOException, InterruptedException {
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            int millisecondsWaited = 0;
+            while (!br.ready() && millisecondsWaited < (secondsToInterruptWithNope * 1000)) {
+                Thread.sleep(200);
+                millisecondsWaited += 200;
+            }
+            if (br.ready())
+                return br.readLine();
+        } catch (Exception e) {
+            printServer("Interruptible reading from client failed: " + e.getMessage());
+        }
+        return null;
     }
 
     public void printErrorStart() {
@@ -181,10 +200,11 @@ public class View {
         printServer(message);
     }
 
-    public void writeStealCard(Player player, Card card, int targetID) {
-        String message = "You stole: " + card.getName();
-        sendMessage(player, message);
-        printServer("Player " + player.getPLAYER_ID() + " stole: " + card.getName() + " from player " + targetID);
+    public void writeStealCard(Player player, Card card, Player target) {
+        sendMessage(player, "You stole: " + card.getName());
+        sendMessage(target, "Player " + player.getPLAYER_ID() + " stole " + card.getName() + " from you");
+        printServer("Player " + player.getPLAYER_ID() + " stole: " + card.getName() + " from player "
+                + target.getPLAYER_ID());
     }
 
     public void writePickCard(ArrayList<Player> players, Player currentPlayer, int targetID, String pickCardName,
@@ -229,8 +249,9 @@ public class View {
         printServer("Player " + targetPlayer + " gave " + cardName + " to Player " + currentPlayer);
     }
 
-    public void writePlayCard(ArrayList<Player> allPlayers, int currentPlayer, String cardName) {
-        String message = "Player " + currentPlayer + " played: " + cardName;
+    public void writePlayCard(ArrayList<Player> allPlayers, int currentPlayer, String cardName, int numCards) {
+        String message = "Player " + currentPlayer + " played " + numCards + " " + cardName
+                + (numCards > 1 ? " cards" : " card");
         for (Player player : allPlayers) {
             if (player.getPLAYER_ID() == currentPlayer) {
                 sendMessage(player, "You played: " + cardName);
@@ -239,6 +260,19 @@ public class View {
             }
         }
         printServer(message);
+    }
+
+    public String writeNope(Player player, int secondsToInterruptWithNope) {
+        sendMessage(player, "Press <Enter> to play Nope");
+        String message = null;
+        try {
+            message = readMessageInterruptible(player, secondsToInterruptWithNope);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return message;
     }
 
 }
