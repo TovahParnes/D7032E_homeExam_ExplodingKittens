@@ -50,16 +50,9 @@ public class View {
         return null;
     }
 
-    public void printErrorStart() {
-        printServer("Something went wrong");
-    }
-
-    public void printConnection(int onlineClient) {
-        printServer("Connected to Player ID: " + (onlineClient));
-    }
-
-    public String drawCard(Card card) {
-        return "You drew: " + card.getName();
+    public void printConnection(Player player, int onlineClient) {
+        sendMessage(player, "You are connected to the server as player " + onlineClient);
+        printServer("Connected to Player ID: " + onlineClient);
     }
 
     public void printDeck(ArrayList<Card> deck) {
