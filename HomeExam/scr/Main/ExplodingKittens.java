@@ -21,10 +21,11 @@ public class ExplodingKittens {
             Server server = new Server(options, view);
             server.startGame();
         } else if (argv.length == 1) {
-            OnlineClient OnlineClient = new OnlineClient(argv[0], view);
+            OnlineClient OnlineClient = new OnlineClient(argv[0]);
         } else {
-            System.out.println("Server syntax: java ExplodingKittens numPlayers numBots Version");
-            System.out.println("Client syntax: IP");
+            System.out.println(
+                    "Server syntax: java ExplodingKittens numPlayers numBots Version\nAvailible Versions: Original");
+            System.out.println("Client syntax: java ExplodingKittens IP");
         }
     }
 

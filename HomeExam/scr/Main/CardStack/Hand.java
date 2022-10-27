@@ -12,11 +12,6 @@ public class Hand extends CardStack {
         sort();
     }
 
-    public Set<Card> getHandSet() {
-        Set<Card> handSet = new HashSet<Card>(cardStack);
-        return handSet;
-    }
-
     public void addCard(Card card) {
         this.cardStack.add(card);
         sort();

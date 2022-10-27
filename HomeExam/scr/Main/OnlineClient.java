@@ -6,13 +6,16 @@ import java.util.*;
 import java.util.concurrent.*;
 
 public class OnlineClient {
-    private static final String ipAddress = null;
-    private static final int secondsToInterruptWithNope = 5;
+    private final String ipAddress;
+    private final static int secondsToInterruptWithNope = 5;
 
     // Connect to server
-    public OnlineClient(String ipAddress, View view) throws Exception {
+    public OnlineClient(String ipAddress) throws Exception {
+        this.ipAddress = ipAddress;
         System.out.println("Client started");
+
         Socket connection = new Socket(ipAddress, 2048);
+
         ObjectOutputStream outToServer = new ObjectOutputStream(connection.getOutputStream());
         ObjectInputStream inFromServer = new ObjectInputStream(connection.getInputStream());
         // Send message to server

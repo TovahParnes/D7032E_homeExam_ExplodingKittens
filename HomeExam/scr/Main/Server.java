@@ -37,6 +37,12 @@ public class Server {
             throw new Exception("Invalid amount of players");
         }
 
+        try {
+            validAmountOfBots(options.getNUM_BOTS());
+        } catch (Exception e) {
+            throw new Exception("Invalid amount of bots. Bots are currently not supported");
+        }
+
         deck = new Deck(options);
 
         cardsInGame = deck.getUniqueCards();
@@ -449,6 +455,12 @@ public class Server {
         }
     }
 
+    private void validAmountOfBots(int numBots) throws Exception {
+        if (numBots > 0) {
+            throw new Exception("Invalid amount of bots. Bots are currently not supported");
+        }
+    }
+
     /**
      * Checks if the inputted name is allowed, if it is not, it will ask for a new
      * inout until it is accepted
@@ -505,7 +517,7 @@ public class Server {
      * 
      * @param player Player - the player to play nope
      */
-    public void playerPlayNope(Player player) {
+    private void playerPlayNope(Player player) {
         if (player.getHand().contains("Nope")) {
             String input = view.writeNope(player, options.getSECONDS_TO_PLAY_NOPE());
             if (input.equals("y")) {

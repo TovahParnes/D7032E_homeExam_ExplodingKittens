@@ -15,11 +15,17 @@ abstract public class Card {
     }
 
     public void onPlay(Server server) {
-        System.out.println("TEMP: Card " + name + " played");
     }
 
     public void onPlay(Server server, Player target) {
-        System.out.println("TEMP: Card " + name + " played, targetID: " + target.getPLAYER_ID());
+    }
+
+    public String getCardInfo() {
+        return this.name + ": " + this.description;
+    }
+
+    public Boolean equals(Card card) {
+        return this.name.equals(card.getName());
     }
 
     public String getName() {
@@ -40,13 +46,5 @@ abstract public class Card {
 
     public Boolean getHasTarget() {
         return hasTarget;
-    }
-
-    public String getCardInfo() {
-        return this.name + ": " + this.description;
-    }
-
-    public Boolean equals(Card card) {
-        return this.name.equals(card.getName());
     }
 }
