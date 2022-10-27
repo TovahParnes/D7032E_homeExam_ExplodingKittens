@@ -1,6 +1,6 @@
 # D7032E Home Exam 2022: Exploding Kittens
 
-To start the server: java ExplodingKittens numOnlinePlayers numBots Version
+To start the server: java ExplodingKittens [numOnlinePlayers] [numBots] [Version]
 
 - The online players may be between 2 and 5
 - Bots are currently not implemented and may therefore only be one
