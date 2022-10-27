@@ -19,6 +19,7 @@ public class ExplodingKittens {
             String version = argv[2];
             Options options = new Options(version + "GameVariables", numOnlinePlayers, numBots);
             Server server = new Server(options, view);
+            server.startGame();
         } else if (argv.length == 1) {
             OnlineClient OnlineClient = new OnlineClient(argv[0], view);
         } else {

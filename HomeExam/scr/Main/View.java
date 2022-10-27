@@ -63,7 +63,7 @@ public class View {
      * 
      * @param player Player - the player to print to
      */
-    public void printConnection(Player player) {
+    public void writeConnection(Player player) {
         sendMessage(player, "You are connected to the server as player " + player.getPLAYER_ID());
         printServer("Connected to Player ID: " + player.getPLAYER_ID());
     }
@@ -154,7 +154,7 @@ public class View {
      * @param targets String - the available targets
      * @return String - the player options
      */
-    public String stringPlayerOptions(Hand hand, String targets) {
+    private String stringPlayerOptions(Hand hand, String targets) {
         ArrayList<String> uniqueCards = new ArrayList<>();
 
         String yourOptions = "You have the following options:\n";

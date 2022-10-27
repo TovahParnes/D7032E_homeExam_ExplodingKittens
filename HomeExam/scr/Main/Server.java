@@ -27,11 +27,15 @@ public class Server {
      * @param options - object containing all the game options
      * @param view    - object handling all messages
      */
-    public Server(Options options, View view) {
+    public Server(Options options, View view) throws Exception {
         this.view = view;
         this.options = options;
 
-        validAmountOfPlayers(options.getNUM_PLAYERS(), options.getMIN_NUM_PLAYERS(), options.getMAX_NUM_PLAYERS());
+        try {
+            validAmountOfPlayers(options.getNUM_PLAYERS(), options.getMIN_NUM_PLAYERS(), options.getMAX_NUM_PLAYERS());
+        } catch (Exception e) {
+            throw new Exception("Invalid amount of players");
+        }
 
         deck = new Deck(options);
 
@@ -47,15 +51,13 @@ public class Server {
         currentPlayer = getStartingPlayer();
         view.writePlayersID(allPlayers);
 
-        startGameLoop();
-
     }
 
     /**
      * Starts the game by running the game loop
      */
-    private void startGameLoop() {
-        view.printServer("Started game loop");
+    public void startGame() {
+        view.printServer("Started game with " + options.getNUM_PLAYERS() + " players");
         numTurns = 1;
         gameLoop();
     }
@@ -528,7 +530,7 @@ public class Server {
                 ObjectOutputStream outToClient = new ObjectOutputStream(connectionSocket.getOutputStream());
                 Player player = new OnlinePlayer(onlineClient, connectionSocket, inFromClient, outToClient);
                 allPlayers.add(player);
-                view.printConnection(player);
+                view.writeConnection(player);
             }
         } catch (Exception e) {
             throw new Exception("Error while adding online players");
